@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.wall.dao.ACommentReplyMapper">
+  <resultMap id="BaseResultMap" type="com.project.wall.po.ACommentReply">
+    <!--@mbg.generated-->
+    <!--@Table a_comment_reply-->
+    <id column="reply_id" jdbcType="VARCHAR" property="replyId" />
+    <result column="comment_id" jdbcType="VARCHAR" property="commentId" />
+    <result column="account_id" jdbcType="VARCHAR" property="accountId" />
+    <result column="reply_user_id" jdbcType="VARCHAR" property="replyUserId" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    reply_id, comment_id, account_id, reply_user_id, content, gmt_create
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from a_comment_reply
+    where reply_id = #{replyId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from a_comment_reply
+    where reply_id = #{replyId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.project.wall.po.ACommentReply">
+    <!--@mbg.generated-->
+    insert into a_comment_reply (reply_id, comment_id, account_id, 
+      reply_user_id, content, gmt_create
+      )
+    values (#{replyId,jdbcType=VARCHAR}, #{commentId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, 
+      #{replyUserId,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{gmtCreate,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.wall.po.ACommentReply">
+    <!--@mbg.generated-->
+    insert into a_comment_reply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="replyId != null">
+        reply_id,
+      </if>
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="replyUserId != null">
+        reply_user_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="replyId != null">
+        #{replyId,jdbcType=VARCHAR},
+      </if>
+      <if test="commentId != null">
+        #{commentId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="replyUserId != null">
+        #{replyUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.wall.po.ACommentReply">
+    <!--@mbg.generated-->
+    update a_comment_reply
+    <set>
+      <if test="commentId != null">
+        comment_id = #{commentId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="replyUserId != null">
+        reply_user_id = #{replyUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=BIGINT},
+      </if>
+    </set>
+    where reply_id = #{replyId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.wall.po.ACommentReply">
+    <!--@mbg.generated-->
+    update a_comment_reply
+    set comment_id = #{commentId,jdbcType=VARCHAR},
+      account_id = #{accountId,jdbcType=VARCHAR},
+      reply_user_id = #{replyUserId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=BIGINT}
+    where reply_id = #{replyId,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deleteByIdAndUser">
+    delete from a_comment_reply where reply_id = #{replyId} and account_id = #{accountId};
+  </delete>
+
+  <select id="getReplyListInComment" resultMap="BaseResultMap" parameterType="list">
+    select * from a_comment_reply where
+    <foreach collection="list" index="index" item="item" open="(" close=")" separator="or">
+      comment_id = #{item.commentId}
+    </foreach>
+  </select>
+
+  <delete id="deleteByComment">
+    delete from a_comment_reply where comment_id = #{commentId};
+  </delete>
+</mapper>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.wall.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.project.wall.po.User">
+    <!--@mbg.generated-->
+    <!--@Table user-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="account_id" jdbcType="VARCHAR" property="accountId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="wall_pub" jdbcType="INTEGER" property="wallPub" />
+    <result column="appointment_pub" jdbcType="INTEGER" property="appointmentPub" />
+    <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="BIGINT" property="gmtModified" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, account_id, username, `password`, icon, telephone, school, wall_pub, appointment_pub, 
+    gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.project.wall.po.User" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user (account_id, username, `password`, 
+      icon, telephone, school, 
+      wall_pub, appointment_pub, gmt_create, 
+      gmt_modified)
+    values (#{accountId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{icon,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
+      #{wallPub,jdbcType=INTEGER}, #{appointmentPub,jdbcType=INTEGER}, #{gmtCreate,jdbcType=BIGINT}, 
+      #{gmtModified,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.project.wall.po.User" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="wallPub != null">
+        wall_pub,
+      </if>
+      <if test="appointmentPub != null">
+        appointment_pub,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="wallPub != null">
+        #{wallPub,jdbcType=INTEGER},
+      </if>
+      <if test="appointmentPub != null">
+        #{appointmentPub,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=BIGINT},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.wall.po.User">
+    <!--@mbg.generated-->
+    update user
+    <set>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="wallPub != null">
+        wall_pub = #{wallPub,jdbcType=INTEGER},
+      </if>
+      <if test="appointmentPub != null">
+        appointment_pub = #{appointmentPub,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=BIGINT},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.wall.po.User">
+    <!--@mbg.generated-->
+    update user
+    set account_id = #{accountId,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      wall_pub = #{wallPub,jdbcType=INTEGER},
+      appointment_pub = #{appointmentPub,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=BIGINT},
+      gmt_modified = #{gmtModified,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <select id="isExistUser" resultType="java.lang.Integer">
+        select 1 from user where username = #{username} limit 1;
+    </select>
+
+    <select id="isExistPhone" resultType="java.lang.Integer">
+        select 1 from user where telephone = #{telephone} limit 1;
+    </select>
+
+    <select id="loginUserByName" resultType="java.lang.Integer">
+        select 1 from user where username = #{username} and password = #{password};
+    </select>
+
+    <select id="loginUserByPhone" resultType="java.lang.Integer">
+        select 1 from user where telephone = #{telephone} and password = #{password};
+    </select>
+
+    <select id="loginUser" resultType="java.lang.Integer">
+        select 1 from wall.user
+        where telephone = #{userInfo} or username = #{userInfo}
+        and password = #{password};
+    </select>
+
+    <select id="selectIdByInfo" resultType="java.lang.String">
+        select account_id from user where telephone = #{userinfo} or username = #{userinfo};
+    </select>
+
+    <select id="selectUserById" resultMap="BaseResultMap">
+        select * from user where account_id = #{accountId};
+    </select>
+
+
+</mapper>

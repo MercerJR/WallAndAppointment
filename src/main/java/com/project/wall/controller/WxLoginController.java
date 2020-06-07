@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 /**
@@ -36,38 +35,26 @@ public class WxLoginController {
     private UserService userService;
 
     @PostMapping(value = "/wxLogin", produces = "application/json")
-    public Response wxLogin(@RequestBody WxParams params , HttpServletRequest request) {
-        //如果tokenKey存在，就返回
-        //先查redis，再查mysql
-        String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
-        accountId = accountId == null ? "" : accountId;
-        if (redisService.existHashKey(HttpInfo.USER_TOKEN,accountId)){
-            WxTokenInfo tokenInfo = redisService.selectHashValByKey(HttpInfo.USER_TOKEN,accountId);
-            UserToken userToken = new UserToken(accountId,tokenInfo.getOpenId(),tokenInfo.getSessionKey());
-            request.getSession().setAttribute(HttpInfo.USER_SESSION,userToken);
-            return new Response().success(accountId);
-        }else {
-            UserToken userToken = userService.getUserToken(accountId);
-            if (userToken != null){
-                WxTokenInfo tokenInfo = new WxTokenInfo(userToken.getSessionKey(),userToken.getOpenId());
-                redisService.insertHash(HttpInfo.USER_TOKEN,accountId,tokenInfo);
-                request.getSession().setAttribute(HttpInfo.USER_SESSION,userToken);
-                return new Response().success(accountId);
-            }
-        }
-        //若没有查到，就访问微信的接口
+    public Response wxLogin(@RequestBody WxParams params) {
         WxUserToken wxUserToken = codeUtil.getUserToken(params);
         if (wxUserToken.getErrcode() != 0) {
             throw new CustomException(CustomExceptionType.WX_CODE_ERROR, wxUserToken.getErrmsg());
         }
-        String key = UUID.randomUUID().toString();
-        UserToken userToken = new UserToken(key,wxUserToken.getOpenid(),wxUserToken.getSession_key());
-        WxTokenInfo tokenInfo = new WxTokenInfo(wxUserToken.getSession_key(), wxUserToken.getOpenid());
-        if (userService.getUserToken(key) != null) {
-            throw new CustomException(CustomExceptionType.SYSTEM_ERROR, Message.CONTACT_ADMIN);
+        //查MySQL，没有就生成新的第三方key
+        String accountId = userService.existUserToken(wxUserToken.getOpenid());
+        if (accountId != null){
+            return new Response().success(accountId);
+        }else {
+            String key = UUID.randomUUID().toString();
+            if (userService.getUserToken(key) != null) {
+                throw new CustomException(CustomExceptionType.SYSTEM_ERROR, Message.CONTACT_ADMIN);
+            }
+            UserToken userToken = new UserToken(key,wxUserToken.getOpenid(),wxUserToken.getSession_key());
+            userService.insertUserToken(userToken);
+            return new Response().success(key);
         }
-        userService.insertUserToken(userToken);
-        redisService.insertHash(HttpInfo.USER_TOKEN,key,tokenInfo);
-        return new Response().success(key);
+
+
+
     }
 }

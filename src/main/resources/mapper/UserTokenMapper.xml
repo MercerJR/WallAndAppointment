@@ -77,4 +77,8 @@
       session_key = #{sessionKey,jdbcType=VARCHAR}
     where account_id = #{accountId,jdbcType=VARCHAR}
   </update>
+
+    <select id="selectIdByTokenInfo" resultType="java.lang.String">
+      select account_id from userToken where open_id = #{openId};
+    </select>
 </mapper>

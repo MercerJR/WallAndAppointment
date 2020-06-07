@@ -42,4 +42,6 @@ public interface UserService {
     void insertUserToken(UserToken userToken);
 
     UserToken getUserToken(String tokenKey);
+
+    String existUserToken(String openid);
 }

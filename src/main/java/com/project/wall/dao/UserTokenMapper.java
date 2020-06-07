@@ -1,6 +1,7 @@
 package com.project.wall.dao;
 
 import com.project.wall.po.UserToken;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @Author MercerJR
@@ -18,4 +19,6 @@ public interface UserTokenMapper {
     boolean updateByPrimaryKeySelective(UserToken record);
 
     boolean updateByPrimaryKey(UserToken record);
+
+    String selectIdByTokenInfo(String openid);
 }

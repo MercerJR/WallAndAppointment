@@ -90,5 +90,9 @@ public class UserServiceImpl implements UserService {
         return tokenMapper.selectByPrimaryKey(accountId);
     }
 
+    @Override
+    public String existUserToken(String openid) {
+        return tokenMapper.selectIdByTokenInfo(openid);
+    }
 
 }

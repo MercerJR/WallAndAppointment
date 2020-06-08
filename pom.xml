@@ -108,7 +108,7 @@
     </dependencies>
 
     <build>
-        <finalName>wall</finalName>
+        <finalName>wallAndAppointment</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -27,5 +27,5 @@ public interface WCommentReplyMapper {
 
     int deleteByComment(@Param("commentId") String commentId);
 
-    List<WCommentReply> getReplyList(List<WComment> commentList);
+    List<WCommentReply> getReplyList(String commentId);
 }

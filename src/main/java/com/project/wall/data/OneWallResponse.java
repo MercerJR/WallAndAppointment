@@ -1,5 +1,7 @@
 package com.project.wall.data;
 
+import com.project.wall.po.WComment;
+import com.project.wall.po.WCommentReply;
 import com.project.wall.po.Wall;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,9 +20,7 @@ public class OneWallResponse {
 
     private Wall wall;
 
-    private List commentList;
-
-    private List replyList;
+    private List<CommentResponse<WComment, WCommentReply>> commentResponseList;
 
     private Integer likeCount;
 

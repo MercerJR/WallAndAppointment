@@ -1,5 +1,6 @@
 package com.project.wall.service;
 
+import com.project.wall.data.CommentResponse;
 import com.project.wall.po.AComment;
 import com.project.wall.po.ACommentReply;
 import com.project.wall.po.Appointment;
@@ -28,15 +29,13 @@ public interface AppointmentService {
 
     void deleteReply(String replyId,String accountId);
 
-    List getReplyListInComment(List<AComment> commentList);
-
     Appointment getAppointmentById(String appointmentId);
 
     int deleteReplyInComment(String commentId);
 
     String getAppointmentIdByComment(String commentId);
 
-    List getCommentListInAppointment(String appointmentId);
+    List<CommentResponse<AComment,ACommentReply>> getCommentListInAppointment(String appointmentId);
 
     List getAppointmentListByUser(String accountId);
 }

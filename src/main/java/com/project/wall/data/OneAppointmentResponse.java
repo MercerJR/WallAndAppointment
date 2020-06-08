@@ -1,6 +1,6 @@
 package com.project.wall.data;
 
-import com.project.wall.po.Appointment;
+import com.project.wall.po.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +18,7 @@ public class OneAppointmentResponse {
 
     private Appointment appointment;
 
-    private List commentList;
-
-    private List replyList;
+    private List<CommentResponse<AComment, ACommentReply>> commentResponseList;
 
     private Integer joinCount;
 

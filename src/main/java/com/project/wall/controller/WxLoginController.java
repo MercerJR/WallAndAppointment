@@ -29,9 +29,6 @@ public class WxLoginController {
     private CodeUtil codeUtil;
 
     @Autowired
-    private RedisService redisService;
-
-    @Autowired
     private UserService userService;
 
     @PostMapping(value = "/wxLogin", produces = "application/json")

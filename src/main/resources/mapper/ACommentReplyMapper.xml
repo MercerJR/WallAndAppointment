@@ -117,14 +117,11 @@
     delete from a_comment_reply where reply_id = #{replyId} and account_id = #{accountId};
   </delete>
 
-  <select id="getReplyListInComment" resultMap="BaseResultMap" parameterType="list">
-    select * from a_comment_reply where
-    <foreach collection="list" index="index" item="item" open="(" close=")" separator="or">
-      comment_id = #{item.commentId}
-    </foreach>
-  </select>
-
   <delete id="deleteByComment">
     delete from a_comment_reply where comment_id = #{commentId};
   </delete>
+
+  <select id="getReplyListInComment" resultMap="BaseResultMap">
+    select * from a_comment_reply where comment_id = #{commentId} order by gmt_create asc;
+  </select>
 </mapper>

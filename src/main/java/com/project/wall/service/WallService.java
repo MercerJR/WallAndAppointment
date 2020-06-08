@@ -1,5 +1,6 @@
 package com.project.wall.service;
 
+import com.project.wall.data.CommentResponse;
 import com.project.wall.po.WComment;
 import com.project.wall.po.WCommentReply;
 import com.project.wall.po.Wall;
@@ -34,11 +35,9 @@ public interface WallService {
 
     int deleteReplyInComment(String commentId);
 
-    List getReplyListInComment(List commentList);
-
     String getWallIdByComment(String commentId);
 
-    List getCommentListInWall(String wallId);
+    List<CommentResponse<WComment,WCommentReply>> getCommentListInWall(String wallId);
 
     List getWallListByUser(String accountId);
 

@@ -3,6 +3,7 @@ package com.project.wall.service.impl;
 import com.project.wall.dao.WCommentMapper;
 import com.project.wall.dao.WCommentReplyMapper;
 import com.project.wall.dao.WallMapper;
+import com.project.wall.data.CommentResponse;
 import com.project.wall.data.Message;
 import com.project.wall.exception.CustomException;
 import com.project.wall.exception.CustomExceptionType;
@@ -10,10 +11,12 @@ import com.project.wall.po.WComment;
 import com.project.wall.po.WCommentReply;
 import com.project.wall.po.Wall;
 import com.project.wall.service.WallService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -103,18 +106,24 @@ public class WallServiceImpl implements WallService {
     }
 
     @Override
-    public List getReplyListInComment(List commentList) {
-        return replyMapper.getReplyList(commentList);
-    }
-
-    @Override
     public String getWallIdByComment(String commentId) {
         return commentMapper.selectWallByComment(commentId);
     }
 
     @Override
-    public List getCommentListInWall(String wallId) {
-        return commentMapper.selectCommentInWall(wallId);
+    public List<CommentResponse<WComment,WCommentReply>> getCommentListInWall(String wallId) {
+        List<WComment> commentList = commentMapper.selectCommentInWall(wallId);
+        List<CommentResponse<WComment,WCommentReply>> commentResponseList =
+                new ArrayList<>();
+        for (int i = 0;i < commentList.size();i++){
+            CommentResponse<WComment,WCommentReply> commentResponse = new CommentResponse<>();
+            WComment comment = commentList.get(i);
+            BeanUtils.copyProperties(comment,commentResponse);
+            commentResponse.setComment(comment);
+            commentResponse.setReplyList(replyMapper.getReplyList(comment.getCommentId()));
+            commentResponseList.add(commentResponse);
+        }
+        return commentResponseList;
     }
 
     @Override

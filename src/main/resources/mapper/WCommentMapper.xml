@@ -116,6 +116,6 @@
     </select>
 
     <select id="selectCommentInWall" resultType="com.project.wall.po.WComment">
-        select * from w_comment where wall_id = #{wallId};
+        select * from w_comment where wall_id = #{wallId} order by gmt_create asc;
     </select>
 </mapper>

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @Author MercerJR
- * @Data 2020/5/20 17:25
+ * @Data 2020/6/8 11:19
  */
 @Data
 @AllArgsConstructor
@@ -20,8 +20,6 @@ public class Appointment implements Serializable {
     private String title;
 
     private String content;
-
-    private String label;
 
     /**
      * 类型（运动、约饭、学习、出行、其他，具体类型码参考文档）

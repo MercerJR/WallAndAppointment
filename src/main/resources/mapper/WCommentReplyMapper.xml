@@ -120,10 +120,9 @@
      delete from w_comment_reply where comment_id = #{commentId};
   </delete>
 
-  <select id="getReplyList" resultMap="BaseResultMap" parameterType="list">
-    select * from w_comment_reply where
-    <foreach collection="list" index="index" item="item" open="(" close=")" separator="or">
-      comment_id = #{item.commentId}
-    </foreach>
+  <select id="getReplyList" resultMap="BaseResultMap">
+    select * from w_comment_reply where comment_id = #{commentId} order by gmt_create asc;
   </select>
+
+
 </mapper>

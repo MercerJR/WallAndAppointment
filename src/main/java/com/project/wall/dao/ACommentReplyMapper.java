@@ -25,7 +25,7 @@ public interface ACommentReplyMapper {
 
     boolean deleteByIdAndUser(@Param("replyId") String replyId,@Param("accountId")String accountId);
 
-    List<ACommentReply> getReplyListInComment(List<AComment> commentList);
+    List<ACommentReply> getReplyListInComment(String commentId);
 
     int deleteByComment(@Param("commentId") String commentId);
 }

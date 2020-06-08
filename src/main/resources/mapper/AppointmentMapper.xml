@@ -8,7 +8,6 @@
     <result column="account_id" jdbcType="VARCHAR" property="accountId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
-    <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="img" jdbcType="LONGVARCHAR" property="img" />
     <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
@@ -17,12 +16,11 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    appointment_id, account_id, title, content, `label`, `type`, img, gmt_create, `time`, 
-    exceed
+    appointment_id, account_id, title, content, `type`, img, gmt_create, `time`, exceed
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select
+    select 
     <include refid="Base_Column_List" />
     from appointment
     where appointment_id = #{appointmentId,jdbcType=VARCHAR}
@@ -35,13 +33,13 @@
   <insert id="insert" parameterType="com.project.wall.po.Appointment">
     <!--@mbg.generated-->
     insert into appointment (appointment_id, account_id, title, 
-      content, `label`, `type`, 
-      img, gmt_create, `time`, 
-      exceed)
+      content, `type`, img, 
+      gmt_create, `time`, exceed
+      )
     values (#{appointmentId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{content,jdbcType=LONGVARCHAR}, #{label,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{img,jdbcType=LONGVARCHAR}, #{gmtCreate,jdbcType=BIGINT}, #{time,jdbcType=BIGINT}, 
-      #{exceed,jdbcType=INTEGER})
+      #{content,jdbcType=LONGVARCHAR}, #{type,jdbcType=INTEGER}, #{img,jdbcType=LONGVARCHAR}, 
+      #{gmtCreate,jdbcType=BIGINT}, #{time,jdbcType=BIGINT}, #{exceed,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.project.wall.po.Appointment">
     <!--@mbg.generated-->
@@ -58,9 +56,6 @@
       </if>
       <if test="content != null">
         content,
-      </if>
-      <if test="label != null">
-        `label`,
       </if>
       <if test="type != null">
         `type`,
@@ -90,9 +85,6 @@
       </if>
       <if test="content != null">
         #{content,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="label != null">
-        #{label,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
@@ -124,9 +116,6 @@
       <if test="content != null">
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
-      <if test="label != null">
-        `label` = #{label,jdbcType=VARCHAR},
-      </if>
       <if test="type != null">
         `type` = #{type,jdbcType=INTEGER},
       </if>
@@ -151,7 +140,6 @@
     set account_id = #{accountId,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR},
-      `label` = #{label,jdbcType=VARCHAR},
       `type` = #{type,jdbcType=INTEGER},
       img = #{img,jdbcType=LONGVARCHAR},
       gmt_create = #{gmtCreate,jdbcType=BIGINT},

@@ -136,12 +136,11 @@ public class WallController {
                             @NotNull @RequestParam("wallId")String wallId){
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
         Wall wall = service.getWallById(wallId);
-        List commentList = service.getCommentListInWall(wallId);
-        commentList = commentList.size() != 0 ? commentList : null;
-        List replyList = commentList != null ? service.getReplyListInComment(commentList) : null;
+        List<CommentResponse<WComment,WCommentReply>> commentResponseList =
+                service.getCommentListInWall(wallId);
         Integer likeCount = redisService.getWallLikeCount(wallId);
         boolean like = redisService.isUserLike(wallId,accountId);
-        OneWallResponse wallResponse = new OneWallResponse(wall,commentList,replyList,likeCount,like);
+        OneWallResponse wallResponse = new OneWallResponse(wall,commentResponseList,likeCount,like);
         return new Response().success(wallResponse);
     }
 

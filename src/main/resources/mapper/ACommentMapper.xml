@@ -116,7 +116,7 @@
     </select>
 
     <select id="selectCommentInAppointment" resultMap="BaseResultMap">
-        select * from a_comment where appointment_id = #{appointmentId};
+        select * from a_comment where appointment_id = #{appointmentId} order by gmt_create asc;
     </select>
 
 </mapper>

@@ -3,6 +3,7 @@ package com.project.wall.service.impl;
 import com.project.wall.dao.ACommentMapper;
 import com.project.wall.dao.ACommentReplyMapper;
 import com.project.wall.dao.AppointmentMapper;
+import com.project.wall.data.CommentResponse;
 import com.project.wall.data.HttpInfo;
 import com.project.wall.data.Message;
 import com.project.wall.exception.CustomException;
@@ -11,9 +12,11 @@ import com.project.wall.po.AComment;
 import com.project.wall.po.ACommentReply;
 import com.project.wall.po.Appointment;
 import com.project.wall.service.AppointmentService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -87,11 +90,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List getReplyListInComment(List commentList) {
-        return replyMapper.getReplyListInComment(commentList);
-    }
-
-    @Override
     public Appointment getAppointmentById(String appointmentId) {
         return mapper.selectByPrimaryKey(appointmentId);
     }
@@ -107,8 +105,19 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List getCommentListInAppointment(String appointmentId) {
-        return commentMapper.selectCommentInAppointment(appointmentId);
+    public List<CommentResponse<AComment,ACommentReply>> getCommentListInAppointment(String appointmentId) {
+        List<AComment> commentList = commentMapper.selectCommentInAppointment(appointmentId);
+        List<CommentResponse<AComment,ACommentReply>> commentResponseList =
+                new ArrayList<>();
+        for (int i = 0;i < commentList.size();i++){
+            CommentResponse<AComment,ACommentReply> commentResponse = new CommentResponse<>();
+            AComment comment = commentList.get(i);
+            BeanUtils.copyProperties(comment,commentResponse);
+            commentResponse.setComment(comment);
+            commentResponse.setReplyList(replyMapper.getReplyListInComment(comment.getCommentId()));
+            commentResponseList.add(commentResponse);
+        }
+        return commentResponseList;
     }
 
     @Override

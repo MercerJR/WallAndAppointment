@@ -123,13 +123,15 @@ public class AppointmentController {
                             @NotNull @RequestParam("appointmentId") String appointmentId){
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
         Appointment appointment = service.getAppointmentById(appointmentId);
-        List commentList = service.getCommentListInAppointment(appointmentId);
-        commentList = commentList.size() != 0 ? commentList : null;
-        List replyList = commentList != null ? service.getReplyListInComment(commentList) : null;
+//        List commentList = service.getCommentListInAppointment(appointmentId);
+//        commentList = commentList.size() != 0 ? commentList : null;
+//        List replyList = commentList != null ? service.getReplyListInComment(commentList) : null;
+        List<CommentResponse<AComment,ACommentReply>> commentResponseList =
+                service.getCommentListInAppointment(appointmentId);
         Integer joinCount = redisService.getAppointmentJoinCount(appointmentId);
         boolean join = redisService.isUserJoin(appointmentId,accountId);
         OneAppointmentResponse appointmentResponse = new OneAppointmentResponse(
-                appointment,commentList,replyList,joinCount,join);
+                appointment,commentResponseList,joinCount,join);
         return new Response().success(appointmentResponse);
     }
 

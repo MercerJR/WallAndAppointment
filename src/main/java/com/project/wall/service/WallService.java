@@ -41,4 +41,7 @@ public interface WallService {
 
     List getWallListByUser(String accountId);
 
+    void updateUsername(String accountId,String username);
+
+    Integer getWallNumByUser(String accountId);
 }

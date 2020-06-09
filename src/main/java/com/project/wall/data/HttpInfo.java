@@ -19,7 +19,7 @@ public interface HttpInfo {
     String USER_LIKE_WALL = "userLikeWall";
     String WALL_LIKE_COUNT = "wallLikeCount";
     String USER_WALL_LIKE = "userWallLike";
-    Integer HOT_STANDARD = 5;
+    Integer HOT_STANDARD = 3;
     String APPOINTMENT_JOIN = "appointmentJoin";
     String USER_JOIN_APPOINTMENT = "userJoinAppointment";
     String APPOINTMENT_JOIN_COUNT = "appointmentJoinCount";

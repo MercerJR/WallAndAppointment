@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.wall.dao.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.project.wall.po.UserInfo">
+    <!--@mbg.generated-->
+    <!--@Table user_info-->
+    <id column="account_id" jdbcType="VARCHAR" property="accountId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="icon" jdbcType="LONGVARCHAR" property="icon" />
+    <result column="gender" jdbcType="SMALLINT" property="gender" />
+    <result column="age" jdbcType="SMALLINT" property="age" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="qq_number" jdbcType="INTEGER" property="qqNumber" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="school_id" jdbcType="INTEGER" property="schoolId" />
+    <result column="person_introduction" jdbcType="LONGVARCHAR" property="personIntroduction" />
+    <result column="hobbies" jdbcType="LONGVARCHAR" property="hobbies" />
+    <result column="hometown" jdbcType="VARCHAR" property="hometown" />
+    <result column="constellation" jdbcType="VARCHAR" property="constellation" />
+    <result column="animal_sign" jdbcType="VARCHAR" property="animalSign" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    account_id, username, icon, gender, age, email, qq_number, telephone, school_id, 
+    person_introduction, hobbies, hometown, constellation, animal_sign
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from user_info
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.project.wall.po.UserInfo">
+    <!--@mbg.generated-->
+    insert into user_info (account_id, username, icon, 
+      gender, age, email, 
+      qq_number, telephone, school_id, 
+      person_introduction, hobbies, hometown, 
+      constellation, animal_sign)
+    values (#{accountId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{icon,jdbcType=LONGVARCHAR}, 
+      #{gender,jdbcType=SMALLINT}, #{age,jdbcType=SMALLINT}, #{email,jdbcType=VARCHAR}, 
+      #{qqNumber,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR}, #{schoolId,jdbcType=INTEGER}, 
+      #{personIntroduction,jdbcType=LONGVARCHAR}, #{hobbies,jdbcType=LONGVARCHAR}, #{hometown,jdbcType=VARCHAR}, 
+      #{constellation,jdbcType=VARCHAR}, #{animalSign,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.wall.po.UserInfo">
+    <!--@mbg.generated-->
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="qqNumber != null">
+        qq_number,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="schoolId != null">
+        school_id,
+      </if>
+      <if test="personIntroduction != null">
+        person_introduction,
+      </if>
+      <if test="hobbies != null">
+        hobbies,
+      </if>
+      <if test="hometown != null">
+        hometown,
+      </if>
+      <if test="constellation != null">
+        constellation,
+      </if>
+      <if test="animalSign != null">
+        animal_sign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=SMALLINT},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qqNumber != null">
+        #{qqNumber,jdbcType=INTEGER},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null">
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="personIntroduction != null">
+        #{personIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hobbies != null">
+        #{hobbies,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hometown != null">
+        #{hometown,jdbcType=VARCHAR},
+      </if>
+      <if test="constellation != null">
+        #{constellation,jdbcType=VARCHAR},
+      </if>
+      <if test="animalSign != null">
+        #{animalSign,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.wall.po.UserInfo">
+    <!--@mbg.generated-->
+    update user_info
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=SMALLINT},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qqNumber != null">
+        qq_number = #{qqNumber,jdbcType=INTEGER},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null">
+        school_id = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="personIntroduction != null">
+        person_introduction = #{personIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hobbies != null">
+        hobbies = #{hobbies,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hometown != null">
+        hometown = #{hometown,jdbcType=VARCHAR},
+      </if>
+      <if test="constellation != null">
+        constellation = #{constellation,jdbcType=VARCHAR},
+      </if>
+      <if test="animalSign != null">
+        animal_sign = #{animalSign,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.wall.po.UserInfo">
+    <!--@mbg.generated-->
+    update user_info
+    set username = #{username,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=LONGVARCHAR},
+      gender = #{gender,jdbcType=SMALLINT},
+      age = #{age,jdbcType=SMALLINT},
+      email = #{email,jdbcType=VARCHAR},
+      qq_number = #{qqNumber,jdbcType=INTEGER},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      school_id = #{schoolId,jdbcType=INTEGER},
+      person_introduction = #{personIntroduction,jdbcType=LONGVARCHAR},
+      hobbies = #{hobbies,jdbcType=LONGVARCHAR},
+      hometown = #{hometown,jdbcType=VARCHAR},
+      constellation = #{constellation,jdbcType=VARCHAR},
+      animal_sign = #{animalSign,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </update>
+
+    <update id="updateUsernameAndIconById">
+      update user_info set username = #{username},icon = #{icon} where account_id = #{accountId}
+    </update>
+
+  <select id="selectUsernameById" resultType="java.lang.String">
+    select username from user_info where account_id = #{accountId}
+  </select>
+  <select id="selectIconById" resultType="java.lang.String">
+    select icon from user_info where account_id = #{accountId};
+  </select>
+</mapper>

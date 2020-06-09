@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @Author MercerJR
- * @Data 2020/5/25 17:52
+ * @Data 2020/6/9 13:17
  */
 @Data
 @AllArgsConstructor
@@ -18,6 +18,10 @@ public class AComment implements Serializable {
     private String appointmentId;
 
     private String accountId;
+
+    private String username;
+
+    private String icon;
 
     private String content;
 

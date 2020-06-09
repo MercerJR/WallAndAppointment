@@ -9,6 +9,7 @@ import com.project.wall.po.WComment;
 import com.project.wall.po.WCommentReply;
 import com.project.wall.po.Wall;
 import com.project.wall.service.RedisService;
+import com.project.wall.service.UserService;
 import com.project.wall.service.WallService;
 import com.project.wall.utils.DateFormatUtil;
 import com.project.wall.utils.IdUtils;
@@ -41,6 +42,9 @@ public class WallController {
     private DateFormatUtil dateFormatUtil;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private IdUtils idUtils;
 
     @PostMapping(value = "/publish", produces = "application/json")
@@ -56,6 +60,7 @@ public class WallController {
         }
         wall.setWallId("W" + idUtils.getPrimaryKey());
         wall.setAccountId(accountId);
+        wall.setUsername(userService.selectUsernameById(accountId));
         wall.setGmtCreat(System.currentTimeMillis());
         wall.setGmtModified(System.currentTimeMillis());
         service.publishWall(wall);
@@ -75,6 +80,7 @@ public class WallController {
                 wall.getContent() == null || "".equals(wall.getContent())){
             throw new CustomException(CustomExceptionType.VALIDATE_ERROR,Message.TITLE_OR_CONTENT_EMPTY);
         }
+        wall.setUsername(userService.selectUsernameById(accountId));
         wall.setGmtModified(System.currentTimeMillis());
         service.updateWall(wall);
         return new Response().success();
@@ -100,13 +106,11 @@ public class WallController {
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
         List wallList = service.getDefaultWallList(HttpInfo.DEFAULT_WALL_NUM);
         Set likeSet = redisService.getLikeSetByUser(accountId);
-        Map replyCountMap = redisService.getWallReplyCountMap(wallList);
-        Map likeCountMap = redisService.getWallLikeCountMap(wallList);
+        redisService.getWallReplyCount(wallList);
+        redisService.getWallLikeCount(wallList);
         WallResponse wallResponse = new WallResponse();
         wallResponse.setWallList(wallList);
         wallResponse.setLikeSet(likeSet);
-        wallResponse.setReplyCountMap(replyCountMap);
-        wallResponse.setLikeCountMap(likeCountMap);
         wallResponse.setHotList(getHotWall());
         return new Response().success(wallResponse);
     }
@@ -121,13 +125,11 @@ public class WallController {
         Long endTime = dateFormatUtil.getDateStr(year, month, day + 1);
         List wallList = service.getWallListByTime(startTime, endTime);
         Set likeSet = redisService.getLikeSetByUser(accountId);
-        Map replyCountMap = redisService.getWallReplyCountMap(wallList);
-        Map likeCountMap = redisService.getWallLikeCountMap(wallList);
+        redisService.getWallReplyCount(wallList);
+        redisService.getWallLikeCount(wallList);
         WallResponse wallResponse = new WallResponse();
         wallResponse.setWallList(wallList);
         wallResponse.setLikeSet(likeSet);
-        wallResponse.setReplyCountMap(replyCountMap);
-        wallResponse.setLikeCountMap(likeCountMap);
         return new Response().success(wallResponse);
     }
 
@@ -165,6 +167,8 @@ public class WallController {
         }
         comment.setCommentId("WC" + idUtils.getPrimaryKey());
         comment.setAccountId(accountId);
+        comment.setUsername(userService.selectUsernameById(accountId));
+        comment.setIcon(userService.selectIconById(accountId));
         comment.setGmtCreate(System.currentTimeMillis());
         service.publishComment(comment);
         redisService.increaseReplyNum(comment.getWallId());
@@ -194,6 +198,8 @@ public class WallController {
         }
         reply.setReplyId("WCR" + idUtils.getPrimaryKey());
         reply.setAccountId(accountId);
+        reply.setUsername(userService.selectUsernameById(accountId));
+        reply.setReplyUsername(userService.selectUsernameById(reply.getReplyUserId()));
         reply.setGmtCreate(System.currentTimeMillis());
         service.publishReply(reply);
         redisService.increaseReplyNum(service.getWallIdByComment(reply.getCommentId()));
@@ -220,6 +226,7 @@ public class WallController {
         int year = now.get(Calendar.YEAR);
         int month = now.get(Calendar.MONTH) + 1;
         int day = now.get(Calendar.DAY_OF_MONTH) - 1;
+        //测试的时候day + 1
         String keyPrefix = HttpInfo.WALL_LIKE + dateFormatUtil.getWallLikeKeyByDate(year, month, day);
         String hotKey = HttpInfo.WALL_HOT + ":" +
                 dateFormatUtil.getWallLikeKeyByDate(year, month, day + 1);
@@ -234,17 +241,34 @@ public class WallController {
         Set set = map.keySet();
         Object[] arr = set.toArray();
 
+        if (arr.length == 0 && !redisService.existKey(yesterdayKey)){
+            return null;
+        }
+
         List hotList = new ArrayList<>();
         if (arr.length < HttpInfo.HOT_STANDARD) {
-            redisService.leftPopInList(yesterdayKey, arr.length);
-            for (int i = arr.length - 1; i >= 0; i--) {
-                String key = (String) arr[i];
-                String wallId = key.split(keyPrefix + ":")[1];
-                redisService.leftInsertList(hotKey,wallId);
+            if (!redisService.existKey(yesterdayKey)){
+                for (int i = 0; i < arr.length; i++) {
+                    String key = (String) arr[i];
+                    String wallId = key.split(keyPrefix + ":")[1];
+                    hotList.add(wallId);
+                    redisService.leftInsertList(hotKey,wallId);
+                }
+            }else {
+                int size = redisService.getListSize(yesterdayKey);
+                if (size + arr.length > HttpInfo.HOT_STANDARD){
+                    int popSize = size + arr.length - HttpInfo.HOT_STANDARD;
+                    redisService.leftPopInList(yesterdayKey, popSize);
+                }
+                for (int i = 0; i < arr.length; i++) {
+                    String key = (String) arr[i];
+                    String wallId = key.split(keyPrefix + ":")[1];
+                    redisService.leftInsertList(yesterdayKey,wallId);
+                }
+                redisService.moveListToAnother(yesterdayKey,hotKey);
+                redisService.removeKey(yesterdayKey);
+                hotList = redisService.getList(hotKey);
             }
-            redisService.moveListToAnother(yesterdayKey,hotKey);
-            redisService.removeKey(yesterdayKey);
-            hotList = redisService.getList(hotKey);
         } else {
             for (int i = arr.length - 1; i >= arr.length - HttpInfo.HOT_STANDARD; i--) {
                 String key = (String) arr[i];

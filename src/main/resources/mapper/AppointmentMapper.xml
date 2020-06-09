@@ -6,6 +6,7 @@
     <!--@Table appointment-->
     <id column="appointment_id" jdbcType="VARCHAR" property="appointmentId" />
     <result column="account_id" jdbcType="VARCHAR" property="accountId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="type" jdbcType="INTEGER" property="type" />
@@ -13,10 +14,13 @@
     <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
     <result column="time" jdbcType="BIGINT" property="time" />
     <result column="exceed" jdbcType="INTEGER" property="exceed" />
+    <result column="reply_num" jdbcType="INTEGER" property="replyNum" />
+    <result column="join_num" jdbcType="INTEGER" property="joinNum" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    appointment_id, account_id, title, content, `type`, img, gmt_create, `time`, exceed
+    appointment_id, account_id, username, title, content, `type`, img, gmt_create, `time`, 
+    exceed, reply_num, join_num
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -32,13 +36,15 @@
   </delete>
   <insert id="insert" parameterType="com.project.wall.po.Appointment">
     <!--@mbg.generated-->
-    insert into appointment (appointment_id, account_id, title, 
-      content, `type`, img, 
-      gmt_create, `time`, exceed
+    insert into appointment (appointment_id, account_id, username, 
+      title, content, `type`, 
+      img, gmt_create, `time`, 
+      exceed, reply_num, join_num
       )
-    values (#{appointmentId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{content,jdbcType=LONGVARCHAR}, #{type,jdbcType=INTEGER}, #{img,jdbcType=LONGVARCHAR}, 
-      #{gmtCreate,jdbcType=BIGINT}, #{time,jdbcType=BIGINT}, #{exceed,jdbcType=INTEGER}
+    values (#{appointmentId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{img,jdbcType=LONGVARCHAR}, #{gmtCreate,jdbcType=BIGINT}, #{time,jdbcType=BIGINT}, 
+      #{exceed,jdbcType=INTEGER}, #{replyNum,jdbcType=INTEGER}, #{joinNum,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.project.wall.po.Appointment">
@@ -50,6 +56,9 @@
       </if>
       <if test="accountId != null">
         account_id,
+      </if>
+      <if test="username != null">
+        username,
       </if>
       <if test="title != null">
         title,
@@ -72,6 +81,12 @@
       <if test="exceed != null">
         exceed,
       </if>
+      <if test="replyNum != null">
+        reply_num,
+      </if>
+      <if test="joinNum != null">
+        join_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="appointmentId != null">
@@ -79,6 +94,9 @@
       </if>
       <if test="accountId != null">
         #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -101,6 +119,12 @@
       <if test="exceed != null">
         #{exceed,jdbcType=INTEGER},
       </if>
+      <if test="replyNum != null">
+        #{replyNum,jdbcType=INTEGER},
+      </if>
+      <if test="joinNum != null">
+        #{joinNum,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.project.wall.po.Appointment">
@@ -109,6 +133,9 @@
     <set>
       <if test="accountId != null">
         account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -131,6 +158,12 @@
       <if test="exceed != null">
         exceed = #{exceed,jdbcType=INTEGER},
       </if>
+      <if test="replyNum != null">
+        reply_num = #{replyNum,jdbcType=INTEGER},
+      </if>
+      <if test="joinNum != null">
+        join_num = #{joinNum,jdbcType=INTEGER},
+      </if>
     </set>
     where appointment_id = #{appointmentId,jdbcType=VARCHAR}
   </update>
@@ -138,13 +171,16 @@
     <!--@mbg.generated-->
     update appointment
     set account_id = #{accountId,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR},
       `type` = #{type,jdbcType=INTEGER},
       img = #{img,jdbcType=LONGVARCHAR},
       gmt_create = #{gmtCreate,jdbcType=BIGINT},
       `time` = #{time,jdbcType=BIGINT},
-      exceed = #{exceed,jdbcType=INTEGER}
+      exceed = #{exceed,jdbcType=INTEGER},
+      reply_num = #{replyNum,jdbcType=INTEGER},
+      join_num = #{joinNum,jdbcType=INTEGER}
     where appointment_id = #{appointmentId,jdbcType=VARCHAR}
   </update>
 
@@ -154,14 +190,22 @@
   </delete>
 
   <select id="getAppointmentList" resultMap="BaseResultMap">
-    select * from appointment where type div 10 = #{type} order by gmt_create limit #{num};
+    select * from appointment where type = #{type} order by gmt_create limit #{num};
   </select>
 
   <select id="getAppointmentId" resultType="java.lang.String">
-    select appointment_id from appointment where type div 10 = #{type} limit #{num};
+    select appointment_id from appointment where type = #{type} limit #{num};
   </select>
 
     <select id="selectAppointmentByUser" resultMap="BaseResultMap">
-        select * from appointment where account_id = #{accountId};
+        select * from appointment where account_id = #{accountId} order by gmt_create desc;
     </select>
+
+  <update id="updateUsername">
+        update appointment set username = #{username} where account_id = #{accountId}
+  </update>
+  <select id="selectNumByUser" resultType="java.lang.Integer">
+    select count(*) from appointment where account_id = #{accountId};
+  </select>
+
 </mapper>

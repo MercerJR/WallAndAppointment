@@ -124,4 +124,17 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List getAppointmentListByUser(String accountId){
         return mapper.selectAppointmentByUser(accountId);
     }
+
+    @Override
+    public void updateUsername(String accountId, String username) {
+        mapper.updateUsername(accountId,username);
+        commentMapper.updateUsername(accountId,username);
+        replyMapper.updateUsername(accountId,username);
+        replyMapper.updateReplyUsername(accountId,username);
+    }
+
+    @Override
+    public Integer getAppointmentNumByUser(String accountId) {
+        return mapper.selectNumByUser(accountId);
+    }
 }

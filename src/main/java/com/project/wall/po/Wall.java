@@ -1,18 +1,13 @@
 package com.project.wall.po;
 
 import java.io.Serializable;
-
-import com.project.wall.data.Message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-
 /**
  * @Author MercerJR
- * @Data 2020/5/15 12:39
+ * @Data 2020/6/9 13:15
  */
 @Data
 @AllArgsConstructor
@@ -21,6 +16,8 @@ public class Wall implements Serializable {
     private String wallId;
 
     private String accountId;
+
+    private String username;
 
     private String title;
 
@@ -33,6 +30,10 @@ public class Wall implements Serializable {
     private Long gmtCreat;
 
     private Long gmtModified;
+
+    private Integer replyNum;
+
+    private Integer likeNum;
 
     private static final long serialVersionUID = 1L;
 }

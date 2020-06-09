@@ -1,17 +1,13 @@
 package com.project.wall.po;
 
 import java.io.Serializable;
-
-import com.project.wall.data.Message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
-
 /**
  * @Author MercerJR
- * @Data 2020/5/27 9:35
+ * @Data 2020/6/9 13:17
  */
 @Data
 @AllArgsConstructor
@@ -21,10 +17,12 @@ public class WComment implements Serializable {
 
     private String wallId;
 
-    @NotEmpty
     private String accountId;
 
-    @NotEmpty(message = Message.CONTENT_NULL)
+    private String username;
+
+    private String icon;
+
     private String content;
 
     private Long gmtCreate;

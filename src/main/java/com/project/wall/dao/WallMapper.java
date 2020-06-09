@@ -4,7 +4,7 @@ import com.project.wall.po.Wall;import org.apache.ibatis.annotations.Param;impor
 
 /**
  * @Author MercerJR
- * @Data 2020/5/15 12:39
+ * @Data 2020/6/9 13:15
  */
 public interface WallMapper {
     boolean deleteByPrimaryKey(String wallId);
@@ -29,4 +29,8 @@ public interface WallMapper {
                                     @Param("endTime") Long endTime);
 
     List<Wall> selectByUser(String accountId);
+
+    void updateUsername(@Param("accountId") String accountId,@Param("username") String username);
+
+    Integer selectNumByUser(String accountId);
 }

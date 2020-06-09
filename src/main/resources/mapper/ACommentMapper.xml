@@ -1,112 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.wall.dao.ACommentMapper">
-    <resultMap id="BaseResultMap" type="com.project.wall.po.AComment">
-        <!--@mbg.generated-->
-        <!--@Table a_comment-->
-        <id column="comment_id" jdbcType="VARCHAR" property="commentId"/>
-        <result column="appointment_id" jdbcType="VARCHAR" property="appointmentId"/>
-        <result column="account_id" jdbcType="VARCHAR" property="accountId"/>
-        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
-        <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate"/>
-    </resultMap>
-    <sql id="Base_Column_List">
-        <!--@mbg.generated-->
-        comment_id, appointment_id, account_id, content, gmt_create
-    </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-        <!--@mbg.generated-->
-        select
-        <include refid="Base_Column_List"/>
-        from a_comment
-        where comment_id = #{commentId,jdbcType=VARCHAR}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-        <!--@mbg.generated-->
-        delete from a_comment
-        where comment_id = #{commentId,jdbcType=VARCHAR}
-    </delete>
-    <insert id="insert" parameterType="com.project.wall.po.AComment">
-        <!--@mbg.generated-->
-        insert into a_comment (comment_id, appointment_id, account_id,
-        content, gmt_create)
-        values (#{commentId,jdbcType=VARCHAR}, #{appointmentId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR},
-        #{content,jdbcType=LONGVARCHAR}, #{gmtCreate,jdbcType=BIGINT})
-    </insert>
-    <insert id="insertSelective" parameterType="com.project.wall.po.AComment">
-        <!--@mbg.generated-->
-        insert into a_comment
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="commentId != null">
-                comment_id,
-            </if>
-            <if test="appointmentId != null">
-                appointment_id,
-            </if>
-            <if test="accountId != null">
-                account_id,
-            </if>
-            <if test="content != null">
-                content,
-            </if>
-            <if test="gmtCreate != null">
-                gmt_create,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="commentId != null">
-                #{commentId,jdbcType=VARCHAR},
-            </if>
-            <if test="appointmentId != null">
-                #{appointmentId,jdbcType=VARCHAR},
-            </if>
-            <if test="accountId != null">
-                #{accountId,jdbcType=VARCHAR},
-            </if>
-            <if test="content != null">
-                #{content,jdbcType=LONGVARCHAR},
-            </if>
-            <if test="gmtCreate != null">
-                #{gmtCreate,jdbcType=BIGINT},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.project.wall.po.AComment">
-        <!--@mbg.generated-->
-        update a_comment
-        <set>
-            <if test="appointmentId != null">
-                appointment_id = #{appointmentId,jdbcType=VARCHAR},
-            </if>
-            <if test="accountId != null">
-                account_id = #{accountId,jdbcType=VARCHAR},
-            </if>
-            <if test="content != null">
-                content = #{content,jdbcType=LONGVARCHAR},
-            </if>
-            <if test="gmtCreate != null">
-                gmt_create = #{gmtCreate,jdbcType=BIGINT},
-            </if>
-        </set>
-        where comment_id = #{commentId,jdbcType=VARCHAR}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.project.wall.po.AComment">
-        <!--@mbg.generated-->
-        update a_comment
-        set appointment_id = #{appointmentId,jdbcType=VARCHAR},
+  <resultMap id="BaseResultMap" type="com.project.wall.po.AComment">
+    <!--@mbg.generated-->
+    <!--@Table a_comment-->
+    <id column="comment_id" jdbcType="VARCHAR" property="commentId" />
+    <result column="appointment_id" jdbcType="VARCHAR" property="appointmentId" />
+    <result column="account_id" jdbcType="VARCHAR" property="accountId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="icon" jdbcType="LONGVARCHAR" property="icon" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    comment_id, appointment_id, account_id, username, icon, content, gmt_create
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from a_comment
+    where comment_id = #{commentId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from a_comment
+    where comment_id = #{commentId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.project.wall.po.AComment">
+    <!--@mbg.generated-->
+    insert into a_comment (comment_id, appointment_id, account_id, 
+      username, icon, content, 
+      gmt_create)
+    values (#{commentId,jdbcType=VARCHAR}, #{appointmentId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR}, #{icon,jdbcType=LONGVARCHAR}, #{content,jdbcType=LONGVARCHAR}, 
+      #{gmtCreate,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.wall.po.AComment">
+    <!--@mbg.generated-->
+    insert into a_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="appointmentId != null">
+        appointment_id,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        #{commentId,jdbcType=VARCHAR},
+      </if>
+      <if test="appointmentId != null">
+        #{appointmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.wall.po.AComment">
+    <!--@mbg.generated-->
+    update a_comment
+    <set>
+      <if test="appointmentId != null">
+        appointment_id = #{appointmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
         account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null">
         content = #{content,jdbcType=LONGVARCHAR},
-        gmt_create = #{gmtCreate,jdbcType=BIGINT}
-        where comment_id = #{commentId,jdbcType=VARCHAR}
-    </update>
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=BIGINT},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.wall.po.AComment">
+    <!--@mbg.generated-->
+    update a_comment
+    set appointment_id = #{appointmentId,jdbcType=VARCHAR},
+      account_id = #{accountId,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=LONGVARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=BIGINT}
+    where comment_id = #{commentId,jdbcType=VARCHAR}
+  </update>
 
     <delete id="deleteByIdAndAccount">
         delete from a_comment where comment_id = #{commentId} and account_id = #{accountId};
     </delete>
 
-    <select id="getCommentList" resultMap="BaseResultMap" parameterType="list">
+    <select id="getCommentList" parameterType="list" resultMap="BaseResultMap">
         select * from a_comment where
-        <foreach collection="list" index="index" item="item" open="(" close=")" separator="or">
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator="or">
             appointment_id = #{item.appointmentId}
         </foreach>
     </select>
@@ -118,5 +142,9 @@
     <select id="selectCommentInAppointment" resultMap="BaseResultMap">
         select * from a_comment where appointment_id = #{appointmentId} order by gmt_create asc;
     </select>
+
+    <update id="updateUsername">
+        update a_comment set username = #{username} where account_id = #{accountId}
+    </update>
 
 </mapper>

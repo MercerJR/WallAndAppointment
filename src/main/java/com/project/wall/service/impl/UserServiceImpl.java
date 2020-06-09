@@ -1,11 +1,13 @@
 package com.project.wall.service.impl;
 
+import com.project.wall.dao.UserInfoMapper;
 import com.project.wall.dao.UserMapper;
 import com.project.wall.dao.UserTokenMapper;
 import com.project.wall.data.Message;
 import com.project.wall.exception.CustomException;
 import com.project.wall.exception.CustomExceptionType;
 import com.project.wall.po.User;
+import com.project.wall.po.UserInfo;
 import com.project.wall.po.UserToken;
 import com.project.wall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserTokenMapper tokenMapper;
+
+    @Autowired
+    private UserInfoMapper infoMapper;
 
     @Override
     public void insertUser(User user) {
@@ -93,6 +98,46 @@ public class UserServiceImpl implements UserService {
     @Override
     public String existUserToken(String openid) {
         return tokenMapper.selectIdByTokenInfo(openid);
+    }
+
+    @Override
+    public void updateUsername(String accountId, String username,String icon) {
+        if (!infoMapper.updateUsernameAndIconById(accountId,username,icon)){
+            throw new CustomException(CustomExceptionType.SYSTEM_ERROR,Message.CONTACT_ADMIN);
+        }
+    }
+
+    @Override
+    public void createUserInfo(String accountId, String username,String icon) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setAccountId(accountId);
+        userInfo.setUsername(username);
+        userInfo.setIcon(icon);
+        if (!infoMapper.insertSelective(userInfo)){
+            throw new CustomException(CustomExceptionType.SYSTEM_ERROR,Message.CONTACT_ADMIN);
+        }
+    }
+
+    @Override
+    public String selectUsernameById(String accountId) {
+        return infoMapper.selectUsernameById(accountId);
+    }
+
+    @Override
+    public String selectIconById(String accountId) {
+        return infoMapper.selectIconById(accountId);
+    }
+
+    @Override
+    public void updateUserInfo(UserInfo userInfo) {
+        if (!infoMapper.updateByPrimaryKeySelective(userInfo)){
+            throw new CustomException(CustomExceptionType.SYSTEM_ERROR,Message.CONTACT_ADMIN);
+        }
+    }
+
+    @Override
+    public UserInfo getUserInfoById(String accountId) {
+        return infoMapper.selectByPrimaryKey(accountId);
     }
 
 }

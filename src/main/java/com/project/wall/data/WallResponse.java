@@ -21,9 +21,9 @@ public class WallResponse {
 
     private List wallList;
 
-    private Map replyCountMap;
+//    private Map replyCountMap;
 
-    private Map likeCountMap;
+//    private Map likeCountMap;
 
     private Set likeSet;
 

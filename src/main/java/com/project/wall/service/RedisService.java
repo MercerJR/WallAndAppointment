@@ -43,13 +43,13 @@ public interface RedisService {
 
     Set getLikeSetByUser(String accountId);
 
-    Map getWallLikeCountMap(List wallList);
+    void getWallLikeCount(List wallList);
 
-    Map getWallReplyCountMap(List wallList);
+    void getWallReplyCount(List wallList);
 
-    Map getAppointmentReplyCountMap(List wallList);
+    void getAppointmentReplyCount(List wallList);
 
-    Map getAppointmentLikeCountMap(List appointmentList);
+    void getAppointmentJoinCount(List appointmentList);
 
     void deleteWallLikeInfo(Wall wall,String accountId);
 
@@ -76,4 +76,6 @@ public interface RedisService {
     void moveListToAnother(String Key1, String Key2);
 
     List<Object> getList(String key);
+
+    int getListSize(String yesterdayKey);
 }

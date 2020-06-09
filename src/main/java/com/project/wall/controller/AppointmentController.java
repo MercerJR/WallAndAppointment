@@ -8,6 +8,7 @@ import com.project.wall.po.ACommentReply;
 import com.project.wall.po.Appointment;
 import com.project.wall.service.AppointmentService;
 import com.project.wall.service.RedisService;
+import com.project.wall.service.UserService;
 import com.project.wall.utils.IdUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,9 @@ public class AppointmentController {
     @Autowired
     private RedisService redisService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping(value = "/publish", produces = "application/json")
     public Response publish(HttpServletRequest request, @RequestBody Appointment appointment) {
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
@@ -51,6 +55,7 @@ public class AppointmentController {
         }
         appointment.setAppointmentId("A" + idUtils.getPrimaryKey());
         appointment.setAccountId(accountId);
+        appointment.setUsername(userService.selectUsernameById(accountId));
         appointment.setGmtCreate(System.currentTimeMillis());
         appointment.setExceed(0);
         if (System.currentTimeMillis() > appointment.getTime()) {
@@ -72,6 +77,7 @@ public class AppointmentController {
         if (appointment.getContent() == null || "".equals(appointment.getContent())){
             throw new CustomException(CustomExceptionType.VALIDATE_ERROR,Message.CONTENT_OR_TYPE_EMPTY);
         }
+        appointment.setUsername(userService.selectUsernameById(accountId));
         service.updateAppointment(appointment);
         return new Response().success();
     }
@@ -106,15 +112,11 @@ public class AppointmentController {
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
         List appointmentList = service.getAppointmentList(type);
         Set joinSet = redisService.getJoinSetByUser(accountId);
-//        List commentList = service.getCommentList(appointmentList);
-//        List replyList = service.getReplyList(commentList);
-        Map replyCountMap = redisService.getAppointmentReplyCountMap(appointmentList);
-        Map likeCountMap = redisService.getAppointmentLikeCountMap(appointmentList);
+        redisService.getAppointmentReplyCount(appointmentList);
+        redisService.getAppointmentJoinCount(appointmentList);
         AppointmentResponse appointmentResponse = new AppointmentResponse();
         appointmentResponse.setAppointmentList(appointmentList);
         appointmentResponse.setJoinSet(joinSet);
-        appointmentResponse.setReplyCountMap(replyCountMap);
-        appointmentResponse.setLikeCountMap(likeCountMap);
         return new Response().success(appointmentResponse);
     }
 
@@ -123,9 +125,6 @@ public class AppointmentController {
                             @NotNull @RequestParam("appointmentId") String appointmentId){
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
         Appointment appointment = service.getAppointmentById(appointmentId);
-//        List commentList = service.getCommentListInAppointment(appointmentId);
-//        commentList = commentList.size() != 0 ? commentList : null;
-//        List replyList = commentList != null ? service.getReplyListInComment(commentList) : null;
         List<CommentResponse<AComment,ACommentReply>> commentResponseList =
                 service.getCommentListInAppointment(appointmentId);
         Integer joinCount = redisService.getAppointmentJoinCount(appointmentId);
@@ -144,6 +143,8 @@ public class AppointmentController {
         }
         comment.setCommentId("AC" + idUtils.getPrimaryKey());
         comment.setAccountId(accountId);
+        comment.setUsername(userService.selectUsernameById(accountId));
+        comment.setIcon(userService.selectIconById(accountId));
         comment.setGmtCreate(System.currentTimeMillis());
         service.publishComment(comment);
         redisService.increaseReplyNum(comment.getAppointmentId());
@@ -175,6 +176,8 @@ public class AppointmentController {
         }
         reply.setReplyId("ACR" + idUtils.getPrimaryKey());
         reply.setAccountId(accountId);
+        reply.setUsername(userService.selectUsernameById(accountId));
+        reply.setReplyUsername(userService.selectUsernameById(accountId));
         reply.setGmtCreate(System.currentTimeMillis());
         service.publishReply(reply);
         redisService.increaseReplyNum(service.getAppointmentIdByComment(reply.getCommentId()));

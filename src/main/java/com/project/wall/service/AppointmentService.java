@@ -38,4 +38,8 @@ public interface AppointmentService {
     List<CommentResponse<AComment,ACommentReply>> getCommentListInAppointment(String appointmentId);
 
     List getAppointmentListByUser(String accountId);
+
+    void updateUsername(String accountId, String username);
+
+    Integer getAppointmentNumByUser(String accountId);
 }

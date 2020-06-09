@@ -1,14 +1,10 @@
 package com.project.wall.dao;
 
-import com.project.wall.po.WComment;
-import com.project.wall.po.WCommentReply;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import com.project.wall.po.WCommentReply;import org.apache.ibatis.annotations.Param;import java.util.List;
 
 /**
  * @Author MercerJR
- * @Data 2020/5/27 9:39
+ * @Data 2020/6/9 10:57
  */
 public interface WCommentReplyMapper {
     boolean deleteByPrimaryKey(String replyId);
@@ -28,4 +24,8 @@ public interface WCommentReplyMapper {
     int deleteByComment(@Param("commentId") String commentId);
 
     List<WCommentReply> getReplyList(String commentId);
+
+    void updateUsername(@Param("accountId") String accountId,@Param("username") String username);
+
+    void updateReplyUsername(@Param("replyUserId") String replyUserId, @Param("replyUsername") String replyUsername);
 }

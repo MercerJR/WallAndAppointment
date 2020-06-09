@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @Author MercerJR
- * @Data 2020/6/8 11:19
+ * @Data 2020/6/9 13:16
  */
 @Data
 @AllArgsConstructor
@@ -16,6 +16,8 @@ public class Appointment implements Serializable {
     private String appointmentId;
 
     private String accountId;
+
+    private String username;
 
     private String title;
 
@@ -36,6 +38,10 @@ public class Appointment implements Serializable {
      * 判断是否超过约定时间了（0没有，1超过）
      */
     private Integer exceed;
+
+    private Integer replyNum;
+
+    private Integer joinNum;
 
     private static final long serialVersionUID = 1L;
 }

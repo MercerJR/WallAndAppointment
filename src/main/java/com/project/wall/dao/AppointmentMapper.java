@@ -4,7 +4,7 @@ import com.project.wall.po.Appointment;import org.apache.ibatis.annotations.Para
 
 /**
  * @Author MercerJR
- * @Data 2020/6/8 11:19
+ * @Data 2020/6/9 13:16
  */
 public interface AppointmentMapper {
     boolean deleteByPrimaryKey(String appointmentId);
@@ -26,4 +26,8 @@ public interface AppointmentMapper {
     List<String> getAppointmentId(@Param("num")Integer num,@Param("type")Integer type);
 
     List<Appointment> selectAppointmentByUser(String accountId);
+
+    void updateUsername(@Param("accountId") String accountId,@Param("username") String username);
+
+    Integer selectNumByUser(String accountId);
 }

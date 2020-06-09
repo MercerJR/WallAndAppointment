@@ -3,12 +3,11 @@ package com.project.wall.dao;
 import com.project.wall.po.AComment;
 import com.project.wall.po.Appointment;
 import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 
 /**
  * @Author MercerJR
- * @Data 2020/5/25 17:52
+ * @Data 2020/6/9 13:17
  */
 public interface ACommentMapper {
     boolean deleteByPrimaryKey(String commentId);
@@ -32,4 +31,5 @@ public interface ACommentMapper {
 
     List<AComment> selectCommentInAppointment(String appointmentId);
 
+    void updateUsername(@Param("accountId") String accountId,@Param("username") String username);
 }

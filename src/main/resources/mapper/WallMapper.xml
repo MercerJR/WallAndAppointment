@@ -6,20 +6,24 @@
     <!--@Table wall-->
     <id column="wall_id" jdbcType="VARCHAR" property="wallId" />
     <result column="account_id" jdbcType="VARCHAR" property="accountId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="img" jdbcType="LONGVARCHAR" property="img" />
     <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="gmt_creat" jdbcType="BIGINT" property="gmtCreat" />
     <result column="gmt_modified" jdbcType="BIGINT" property="gmtModified" />
+    <result column="reply_num" jdbcType="INTEGER" property="replyNum" />
+    <result column="like_num" jdbcType="INTEGER" property="likeNum" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    wall_id, account_id, title, content, img, `label`, gmt_creat, gmt_modified
+    wall_id, account_id, username, title, content, img, `label`, gmt_creat, gmt_modified, 
+    reply_num, like_num
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select
+    select 
     <include refid="Base_Column_List" />
     from wall
     where wall_id = #{wallId,jdbcType=VARCHAR}
@@ -31,12 +35,14 @@
   </delete>
   <insert id="insert" parameterType="com.project.wall.po.Wall">
     <!--@mbg.generated-->
-    insert into wall (wall_id, account_id, title, 
-      content, img, `label`, 
-      gmt_creat, gmt_modified)
-    values (#{wallId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{content,jdbcType=LONGVARCHAR}, #{img,jdbcType=LONGVARCHAR}, #{label,jdbcType=VARCHAR}, 
-      #{gmtCreat,jdbcType=BIGINT}, #{gmtModified,jdbcType=BIGINT})
+    insert into wall (wall_id, account_id, username, 
+      title, content, img, 
+      `label`, gmt_creat, gmt_modified, 
+      reply_num, like_num)
+    values (#{wallId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{img,jdbcType=LONGVARCHAR}, 
+      #{label,jdbcType=VARCHAR}, #{gmtCreat,jdbcType=BIGINT}, #{gmtModified,jdbcType=BIGINT}, 
+      #{replyNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.project.wall.po.Wall">
     <!--@mbg.generated-->
@@ -47,6 +53,9 @@
       </if>
       <if test="accountId != null">
         account_id,
+      </if>
+      <if test="username != null">
+        username,
       </if>
       <if test="title != null">
         title,
@@ -66,6 +75,12 @@
       <if test="gmtModified != null">
         gmt_modified,
       </if>
+      <if test="replyNum != null">
+        reply_num,
+      </if>
+      <if test="likeNum != null">
+        like_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="wallId != null">
@@ -73,6 +88,9 @@
       </if>
       <if test="accountId != null">
         #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -92,6 +110,12 @@
       <if test="gmtModified != null">
         #{gmtModified,jdbcType=BIGINT},
       </if>
+      <if test="replyNum != null">
+        #{replyNum,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null">
+        #{likeNum,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.project.wall.po.Wall">
@@ -100,6 +124,9 @@
     <set>
       <if test="accountId != null">
         account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -119,6 +146,12 @@
       <if test="gmtModified != null">
         gmt_modified = #{gmtModified,jdbcType=BIGINT},
       </if>
+      <if test="replyNum != null">
+        reply_num = #{replyNum,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null">
+        like_num = #{likeNum,jdbcType=INTEGER},
+      </if>
     </set>
     where wall_id = #{wallId,jdbcType=VARCHAR}
   </update>
@@ -126,12 +159,15 @@
     <!--@mbg.generated-->
     update wall
     set account_id = #{accountId,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR},
       img = #{img,jdbcType=LONGVARCHAR},
       `label` = #{label,jdbcType=VARCHAR},
       gmt_creat = #{gmtCreat,jdbcType=BIGINT},
-      gmt_modified = #{gmtModified,jdbcType=BIGINT}
+      gmt_modified = #{gmtModified,jdbcType=BIGINT},
+      reply_num = #{replyNum,jdbcType=INTEGER},
+      like_num = #{likeNum,jdbcType=INTEGER}
     where wall_id = #{wallId,jdbcType=VARCHAR}
   </update>
 
@@ -153,7 +189,14 @@
   </delete>
 
     <select id="selectByUser" resultMap="BaseResultMap">
-        select * from wall where account_id = #{accountId};
+        select * from wall where account_id = #{accountId} order by gmt_creat desc;
     </select>
+
+  <update id="updateUsername">
+    update wall set username = #{username} where account_id = #{accountId}
+  </update>
+  <select id="selectNumByUser" resultType="java.lang.Integer">
+    select count(*) from wall where account_id = #{accountId}
+  </select>
 
 </mapper>

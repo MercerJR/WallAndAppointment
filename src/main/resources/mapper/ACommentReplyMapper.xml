@@ -7,13 +7,16 @@
     <id column="reply_id" jdbcType="VARCHAR" property="replyId" />
     <result column="comment_id" jdbcType="VARCHAR" property="commentId" />
     <result column="account_id" jdbcType="VARCHAR" property="accountId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="reply_user_id" jdbcType="VARCHAR" property="replyUserId" />
+    <result column="reply_username" jdbcType="VARCHAR" property="replyUsername" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    reply_id, comment_id, account_id, reply_user_id, content, gmt_create
+    reply_id, comment_id, account_id, username, reply_user_id, reply_username, content, 
+    gmt_create
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -30,11 +33,11 @@
   <insert id="insert" parameterType="com.project.wall.po.ACommentReply">
     <!--@mbg.generated-->
     insert into a_comment_reply (reply_id, comment_id, account_id, 
-      reply_user_id, content, gmt_create
-      )
+      username, reply_user_id, reply_username, 
+      content, gmt_create)
     values (#{replyId,jdbcType=VARCHAR}, #{commentId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, 
-      #{replyUserId,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{gmtCreate,jdbcType=BIGINT}
-      )
+      #{username,jdbcType=VARCHAR}, #{replyUserId,jdbcType=VARCHAR}, #{replyUsername,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR}, #{gmtCreate,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.project.wall.po.ACommentReply">
     <!--@mbg.generated-->
@@ -49,8 +52,14 @@
       <if test="accountId != null">
         account_id,
       </if>
+      <if test="username != null">
+        username,
+      </if>
       <if test="replyUserId != null">
         reply_user_id,
+      </if>
+      <if test="replyUsername != null">
+        reply_username,
       </if>
       <if test="content != null">
         content,
@@ -69,8 +78,14 @@
       <if test="accountId != null">
         #{accountId,jdbcType=VARCHAR},
       </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
       <if test="replyUserId != null">
         #{replyUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="replyUsername != null">
+        #{replyUsername,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=LONGVARCHAR},
@@ -90,8 +105,14 @@
       <if test="accountId != null">
         account_id = #{accountId,jdbcType=VARCHAR},
       </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
       <if test="replyUserId != null">
         reply_user_id = #{replyUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="replyUsername != null">
+        reply_username = #{replyUsername,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=LONGVARCHAR},
@@ -107,7 +128,9 @@
     update a_comment_reply
     set comment_id = #{commentId,jdbcType=VARCHAR},
       account_id = #{accountId,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
       reply_user_id = #{replyUserId,jdbcType=VARCHAR},
+      reply_username = #{replyUsername,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR},
       gmt_create = #{gmtCreate,jdbcType=BIGINT}
     where reply_id = #{replyId,jdbcType=VARCHAR}
@@ -124,4 +147,10 @@
   <select id="getReplyListInComment" resultMap="BaseResultMap">
     select * from a_comment_reply where comment_id = #{commentId} order by gmt_create asc;
   </select>
+    <update id="updateUsername">
+      update a_comment_reply set username = #{username} where account_id = #{accountId}
+    </update>
+  <update id="updateReplyUsername">
+    update a_comment_reply set reply_username = #{replyUsername} where reply_user_id = #{replyUserId}
+  </update>
 </mapper>

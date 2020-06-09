@@ -1,6 +1,7 @@
 package com.project.wall.service;
 
 import com.project.wall.po.User;
+import com.project.wall.po.UserInfo;
 import com.project.wall.po.UserToken;
 
 /**
@@ -44,4 +45,16 @@ public interface UserService {
     UserToken getUserToken(String tokenKey);
 
     String existUserToken(String openid);
+
+    void updateUsername(String accountId,String username,String icon);
+
+    void createUserInfo(String accountId, String username,String icon);
+
+    String selectUsernameById(String accountId);
+
+    String selectIconById(String accountId);
+
+    void updateUserInfo(UserInfo userInfo);
+
+    UserInfo getUserInfoById(String accountId);
 }

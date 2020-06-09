@@ -131,4 +131,17 @@ public class WallServiceImpl implements WallService {
         return mapper.selectByUser(accountId);
     }
 
+    @Override
+    public void updateUsername(String accountId,String username) {
+        mapper.updateUsername(accountId,username);
+        commentMapper.updateUsername(accountId,username);
+        replyMapper.updateUsername(accountId,username);
+        replyMapper.updateReplyUsername(accountId,username);
+    }
+
+    @Override
+    public Integer getWallNumByUser(String accountId) {
+        return mapper.selectNumByUser(accountId);
+    }
+
 }

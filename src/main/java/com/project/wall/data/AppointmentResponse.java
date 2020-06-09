@@ -21,10 +21,6 @@ public class AppointmentResponse {
 
     private List appointmentList;
 
-    private Map replyCountMap;
-
-    private Map likeCountMap;
-
     private Set joinSet;
 
 }

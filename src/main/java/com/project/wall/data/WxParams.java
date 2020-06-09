@@ -19,4 +19,8 @@ public class WxParams {
     String code;
 
     String grantType = HttpInfo.GRANT_TYPE;
+
+    String username;
+
+    String icon;
 }

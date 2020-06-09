@@ -158,59 +158,51 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public Map getWallLikeCountMap(List wallList) {
-        Map<String, Integer> map = new HashMap<>();
+    public void getWallLikeCount(List wallList) {
         for (int i = 0; i < wallList.size(); i++) {
             Wall wall = (Wall) wallList.get(i);
             String key = wall.getWallId();
             String redisKey = HttpInfo.WALL_LIKE_COUNT + ":" + key;
             Integer count = redisTemplate.hasKey(redisKey) ?
                     (Integer) redisTemplate.opsForValue().get(redisKey) : 0;
-            map.put(key, count);
+            wall.setLikeNum(count);
         }
-        return map;
     }
 
     @Override
-    public Map getWallReplyCountMap(List wallList) {
-        Map<String, Integer> map = new HashMap<>();
+    public void getWallReplyCount(List wallList) {
         for (int i = 0; i < wallList.size(); i++) {
             Wall wall = (Wall) wallList.get(i);
             String key = wall.getWallId();
             String redisKey = HttpInfo.REPLY_NUM + ":" + key;
             Integer count = redisTemplate.hasKey(redisKey) ?
                     (Integer) redisTemplate.opsForValue().get(redisKey) : 0;
-            map.put(key, count);
+            wall.setReplyNum(count);
         }
-        return map;
     }
 
     @Override
-    public Map getAppointmentReplyCountMap(List appointmentList) {
-        Map<String, Integer> map = new HashMap<>();
+    public void getAppointmentReplyCount(List appointmentList) {
         for (int i = 0; i < appointmentList.size(); i++) {
             Appointment appointment = (Appointment) appointmentList.get(i);
             String key = appointment.getAppointmentId();
             String redisKey = HttpInfo.REPLY_NUM + ":" + key;
             Integer count = redisTemplate.hasKey(redisKey) ?
                     (Integer) redisTemplate.opsForValue().get(redisKey) : 0;
-            map.put(key, count);
+            appointment.setReplyNum(count);
         }
-        return map;
     }
 
     @Override
-    public Map getAppointmentLikeCountMap(List appointmentList) {
-        Map<String, Integer> map = new HashMap<>();
+    public void getAppointmentJoinCount(List appointmentList) {
         for (int i = 0; i < appointmentList.size(); i++) {
             Appointment appointment = (Appointment) appointmentList.get(i);
             String key = appointment.getAppointmentId();
             String redisKey = HttpInfo.APPOINTMENT_JOIN_COUNT + ":" + key;
             Integer count = redisTemplate.hasKey(redisKey) ?
                     (Integer) redisTemplate.opsForValue().get(redisKey) : 0;
-            map.put(key, count);
+            appointment.setJoinNum(count);
         }
-        return map;
     }
 
     @Override
@@ -297,6 +289,11 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public List<Object> getList(String key) {
         return redisTemplate.opsForList().range(key,0,-1);
+    }
+
+    @Override
+    public int getListSize(String key) {
+        return Math.toIntExact(redisTemplate.opsForList().size(key));
     }
 
 }

@@ -31,6 +31,28 @@ public class DateFormatUtil {
 //        "2020-05-10 16:39:00"
     }
 
+    public Long getMilesByDate(String date){
+//        "2001-03-15 15-37-05";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        long time = 0;
+        try {
+            time = simpleDateFormat.parse(date).getTime();
+        } catch (ParseException e) {
+            throw new CustomException(CustomExceptionType.SYSTEM_ERROR, Message.CONTACT_ADMIN);
+        }
+        System.out.println(time);
+        return time;
+    }
+
+    public String getDateByMiles(Long miles){
+        Long time = miles ;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        Date date = new Date();
+        date.setTime(time);
+        System.out.println(simpleDateFormat.format(date));
+        return simpleDateFormat.format(date);
+    }
+
     public String getWallLikeKeyByMiles(Long time){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);

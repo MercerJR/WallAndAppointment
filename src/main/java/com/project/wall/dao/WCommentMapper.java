@@ -4,7 +4,7 @@ import com.project.wall.po.WComment;import com.project.wall.po.Wall;import org.a
 
 /**
  * @Author MercerJR
- * @Data 2020/6/9 13:17
+ * @Data 2020/6/9 22:44
  */
 public interface WCommentMapper {
     boolean deleteByPrimaryKey(String commentId);
@@ -27,5 +27,5 @@ public interface WCommentMapper {
 
     List<WComment> selectCommentInWall(String wallId);
 
-    void updateUsername(@Param("accountId") String accountId,@Param("username") String username);
+    void updateUsername(@Param("accountId") String accountId, @Param("username") String username);
 }

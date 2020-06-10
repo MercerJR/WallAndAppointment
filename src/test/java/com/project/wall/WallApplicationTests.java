@@ -1,7 +1,10 @@
 package com.project.wall;
 
+import com.project.wall.data.Message;
 import com.project.wall.data.WxTokenInfo;
 import com.project.wall.data.WxUserToken;
+import com.project.wall.exception.CustomException;
+import com.project.wall.exception.CustomExceptionType;
 import com.project.wall.po.User;
 import com.project.wall.po.Wall;
 import com.project.wall.service.impl.RedisServiceImpl;
@@ -154,6 +157,28 @@ class WallApplicationTests {
 //    void testListMove(){
 //        redisService.moveListToAnother("wallHot:202006:05","another");
 //        redisService.leftPopInList("another", 3);
+//    }
+
+//    @Test
+//    void testMilesToDate(){
+//        Long time = Long.valueOf("1591716690000") ;//+ 5000 *1000
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+//        Date date = new Date();
+//        date.setTime(time);
+//        System.out.println(simpleDateFormat.format(date));
+//    }
+//
+//    @Test
+//    void testDateToMiles(){
+//        String date = "2020-06-09 23-31-30";
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+//        long time = 0;
+//        try {
+//            time = simpleDateFormat.parse(date).getTime();
+//        } catch (ParseException e) {
+//            throw new CustomException(CustomExceptionType.SYSTEM_ERROR, Message.CONTACT_ADMIN);
+//        }
+//        System.out.println(time);
 //    }
 
 }

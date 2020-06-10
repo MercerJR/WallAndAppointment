@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @Author MercerJR
- * @Data 2020/6/9 13:16
+ * @Data 2020/6/9 22:46
  */
 @Data
 @AllArgsConstructor
@@ -30,9 +30,9 @@ public class Appointment implements Serializable {
 
     private String img;
 
-    private Long gmtCreate;
+    private String gmtCreate;
 
-    private Long time;
+    private String time;
 
     /**
      * 判断是否超过约定时间了（0没有，1超过）

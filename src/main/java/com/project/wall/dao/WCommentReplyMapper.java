@@ -4,7 +4,7 @@ import com.project.wall.po.WCommentReply;import org.apache.ibatis.annotations.Pa
 
 /**
  * @Author MercerJR
- * @Data 2020/6/9 10:57
+ * @Data 2020/6/9 22:53
  */
 public interface WCommentReplyMapper {
     boolean deleteByPrimaryKey(String replyId);

@@ -4,7 +4,7 @@ import com.project.wall.po.Wall;import org.apache.ibatis.annotations.Param;impor
 
 /**
  * @Author MercerJR
- * @Data 2020/6/9 13:15
+ * @Data 2020/6/9 22:44
  */
 public interface WallMapper {
     boolean deleteByPrimaryKey(String wallId);

@@ -207,7 +207,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public void deleteWallLikeInfo(Wall wall, String accountId) {
-        String wallLikekey = HttpInfo.WALL_LIKE + dateFormatUtil.getWallLikeKeyByMiles(wall.getGmtCreat()) + ":" + wall.getWallId();
+        //----------------------------------这里要改-------------------------------------
+        String wallLikekey = HttpInfo.WALL_LIKE + dateFormatUtil.getWallLikeKeyByMiles(Long.valueOf(wall.getGmtCreate())) + ":" + wall.getWallId();
         String userLikeWallKey = HttpInfo.USER_LIKE_WALL + ":" + accountId;
         String wallLikeCountKey = HttpInfo.WALL_LIKE_COUNT + ":" + wall.getWallId();
         redisTemplate.delete(wallLikekey);

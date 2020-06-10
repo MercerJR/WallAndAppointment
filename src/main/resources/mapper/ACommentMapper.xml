@@ -10,7 +10,7 @@
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="icon" jdbcType="LONGVARCHAR" property="icon" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
-    <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
+    <result column="gmt_create" jdbcType="VARCHAR" property="gmtCreate" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -35,7 +35,7 @@
       gmt_create)
     values (#{commentId,jdbcType=VARCHAR}, #{appointmentId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, 
       #{username,jdbcType=VARCHAR}, #{icon,jdbcType=LONGVARCHAR}, #{content,jdbcType=LONGVARCHAR}, 
-      #{gmtCreate,jdbcType=BIGINT})
+      #{gmtCreate,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.project.wall.po.AComment">
     <!--@mbg.generated-->
@@ -83,7 +83,7 @@
         #{content,jdbcType=LONGVARCHAR},
       </if>
       <if test="gmtCreate != null">
-        #{gmtCreate,jdbcType=BIGINT},
+        #{gmtCreate,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -107,7 +107,7 @@
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
       <if test="gmtCreate != null">
-        gmt_create = #{gmtCreate,jdbcType=BIGINT},
+        gmt_create = #{gmtCreate,jdbcType=VARCHAR},
       </if>
     </set>
     where comment_id = #{commentId,jdbcType=VARCHAR}
@@ -120,7 +120,7 @@
       username = #{username,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=LONGVARCHAR},
       content = #{content,jdbcType=LONGVARCHAR},
-      gmt_create = #{gmtCreate,jdbcType=BIGINT}
+      gmt_create = #{gmtCreate,jdbcType=VARCHAR}
     where comment_id = #{commentId,jdbcType=VARCHAR}
   </update>
 

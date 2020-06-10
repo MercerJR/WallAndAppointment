@@ -11,15 +11,14 @@
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="img" jdbcType="LONGVARCHAR" property="img" />
     <result column="label" jdbcType="VARCHAR" property="label" />
-    <result column="gmt_creat" jdbcType="BIGINT" property="gmtCreat" />
-    <result column="gmt_modified" jdbcType="BIGINT" property="gmtModified" />
+    <result column="gmt_create" jdbcType="VARCHAR" property="gmtCreate" />
     <result column="reply_num" jdbcType="INTEGER" property="replyNum" />
     <result column="like_num" jdbcType="INTEGER" property="likeNum" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    wall_id, account_id, username, title, content, img, `label`, gmt_creat, gmt_modified, 
-    reply_num, like_num
+    wall_id, account_id, username, title, content, img, `label`, gmt_create, reply_num, 
+    like_num
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -37,12 +36,12 @@
     <!--@mbg.generated-->
     insert into wall (wall_id, account_id, username, 
       title, content, img, 
-      `label`, gmt_creat, gmt_modified, 
-      reply_num, like_num)
+      `label`, gmt_create, reply_num, 
+      like_num)
     values (#{wallId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{img,jdbcType=LONGVARCHAR}, 
-      #{label,jdbcType=VARCHAR}, #{gmtCreat,jdbcType=BIGINT}, #{gmtModified,jdbcType=BIGINT}, 
-      #{replyNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER})
+      #{label,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=VARCHAR}, #{replyNum,jdbcType=INTEGER}, 
+      #{likeNum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.project.wall.po.Wall">
     <!--@mbg.generated-->
@@ -69,11 +68,8 @@
       <if test="label != null">
         `label`,
       </if>
-      <if test="gmtCreat != null">
-        gmt_creat,
-      </if>
-      <if test="gmtModified != null">
-        gmt_modified,
+      <if test="gmtCreate != null">
+        gmt_create,
       </if>
       <if test="replyNum != null">
         reply_num,
@@ -104,11 +100,8 @@
       <if test="label != null">
         #{label,jdbcType=VARCHAR},
       </if>
-      <if test="gmtCreat != null">
-        #{gmtCreat,jdbcType=BIGINT},
-      </if>
-      <if test="gmtModified != null">
-        #{gmtModified,jdbcType=BIGINT},
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=VARCHAR},
       </if>
       <if test="replyNum != null">
         #{replyNum,jdbcType=INTEGER},
@@ -140,11 +133,8 @@
       <if test="label != null">
         `label` = #{label,jdbcType=VARCHAR},
       </if>
-      <if test="gmtCreat != null">
-        gmt_creat = #{gmtCreat,jdbcType=BIGINT},
-      </if>
-      <if test="gmtModified != null">
-        gmt_modified = #{gmtModified,jdbcType=BIGINT},
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=VARCHAR},
       </if>
       <if test="replyNum != null">
         reply_num = #{replyNum,jdbcType=INTEGER},
@@ -164,15 +154,14 @@
       content = #{content,jdbcType=LONGVARCHAR},
       img = #{img,jdbcType=LONGVARCHAR},
       `label` = #{label,jdbcType=VARCHAR},
-      gmt_creat = #{gmtCreat,jdbcType=BIGINT},
-      gmt_modified = #{gmtModified,jdbcType=BIGINT},
+      gmt_create = #{gmtCreate,jdbcType=VARCHAR},
       reply_num = #{replyNum,jdbcType=INTEGER},
       like_num = #{likeNum,jdbcType=INTEGER}
     where wall_id = #{wallId,jdbcType=VARCHAR}
   </update>
 
   <select id="selectDefaultWallList" resultMap="BaseResultMap">
-    select * from wall order by gmt_creat desc limit #{num};
+    select * from wall order by gmt_create desc limit #{num};
   </select>
 
   <select id="getCount" resultType="java.lang.Integer">
@@ -180,7 +169,7 @@
   </select>
 
   <select id="selectWallListByTime" resultMap="BaseResultMap">
-    select * from wall where gmt_creat between #{startTime} and #{endTime};
+    select * from wall where gmt_create between #{startTime} and #{endTime};
   </select>
 
   <delete id="deleteWall">
@@ -189,7 +178,7 @@
   </delete>
 
     <select id="selectByUser" resultMap="BaseResultMap">
-        select * from wall where account_id = #{accountId} order by gmt_creat desc;
+        select * from wall where account_id = #{accountId} order by gmt_create desc;
     </select>
 
   <update id="updateUsername">

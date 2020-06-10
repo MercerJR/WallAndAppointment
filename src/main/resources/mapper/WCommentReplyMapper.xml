@@ -11,7 +11,7 @@
     <result column="reply_user_id" jdbcType="VARCHAR" property="replyUserId" />
     <result column="reply_username" jdbcType="VARCHAR" property="replyUsername" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
-    <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
+    <result column="gmt_create" jdbcType="VARCHAR" property="gmtCreate" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -37,7 +37,7 @@
       content, gmt_create)
     values (#{replyId,jdbcType=VARCHAR}, #{commentId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, 
       #{username,jdbcType=VARCHAR}, #{replyUserId,jdbcType=VARCHAR}, #{replyUsername,jdbcType=VARCHAR}, 
-      #{content,jdbcType=LONGVARCHAR}, #{gmtCreate,jdbcType=BIGINT})
+      #{content,jdbcType=LONGVARCHAR}, #{gmtCreate,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.project.wall.po.WCommentReply">
     <!--@mbg.generated-->
@@ -91,7 +91,7 @@
         #{content,jdbcType=LONGVARCHAR},
       </if>
       <if test="gmtCreate != null">
-        #{gmtCreate,jdbcType=BIGINT},
+        #{gmtCreate,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -118,7 +118,7 @@
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
       <if test="gmtCreate != null">
-        gmt_create = #{gmtCreate,jdbcType=BIGINT},
+        gmt_create = #{gmtCreate,jdbcType=VARCHAR},
       </if>
     </set>
     where reply_id = #{replyId,jdbcType=VARCHAR}
@@ -132,7 +132,7 @@
       reply_user_id = #{replyUserId,jdbcType=VARCHAR},
       reply_username = #{replyUsername,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR},
-      gmt_create = #{gmtCreate,jdbcType=BIGINT}
+      gmt_create = #{gmtCreate,jdbcType=VARCHAR}
     where reply_id = #{replyId,jdbcType=VARCHAR}
   </update>
 

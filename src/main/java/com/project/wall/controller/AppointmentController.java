@@ -9,6 +9,7 @@ import com.project.wall.po.Appointment;
 import com.project.wall.service.AppointmentService;
 import com.project.wall.service.RedisService;
 import com.project.wall.service.UserService;
+import com.project.wall.utils.DateFormatUtil;
 import com.project.wall.utils.IdUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,9 @@ public class AppointmentController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DateFormatUtil dateFormatUtil;
+
     @PostMapping(value = "/publish", produces = "application/json")
     public Response publish(HttpServletRequest request, @RequestBody Appointment appointment) {
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
@@ -56,11 +60,11 @@ public class AppointmentController {
         appointment.setAppointmentId("A" + idUtils.getPrimaryKey());
         appointment.setAccountId(accountId);
         appointment.setUsername(userService.selectUsernameById(accountId));
-        appointment.setGmtCreate(System.currentTimeMillis());
+        appointment.setGmtCreate(dateFormatUtil.getDateByMiles(System.currentTimeMillis()));
         appointment.setExceed(0);
-        if (System.currentTimeMillis() > appointment.getTime()) {
-            throw new CustomException(CustomExceptionType.VALIDATE_ERROR, Message.TIME_SET_ERROR);
-        }
+//        if (System.currentTimeMillis() > appointment.getTime()) {
+//            throw new CustomException(CustomExceptionType.VALIDATE_ERROR, Message.TIME_SET_ERROR);
+//        }
         service.publishAppointment(appointment);
         return new Response().success();
     }
@@ -145,7 +149,7 @@ public class AppointmentController {
         comment.setAccountId(accountId);
         comment.setUsername(userService.selectUsernameById(accountId));
         comment.setIcon(userService.selectIconById(accountId));
-        comment.setGmtCreate(System.currentTimeMillis());
+        comment.setGmtCreate(dateFormatUtil.getDateByMiles(System.currentTimeMillis()));
         service.publishComment(comment);
         redisService.increaseReplyNum(comment.getAppointmentId());
         return new Response().success();
@@ -178,7 +182,7 @@ public class AppointmentController {
         reply.setAccountId(accountId);
         reply.setUsername(userService.selectUsernameById(accountId));
         reply.setReplyUsername(userService.selectUsernameById(accountId));
-        reply.setGmtCreate(System.currentTimeMillis());
+        reply.setGmtCreate(dateFormatUtil.getDateByMiles(System.currentTimeMillis()));
         service.publishReply(reply);
         redisService.increaseReplyNum(service.getAppointmentIdByComment(reply.getCommentId()));
         return new Response().success();

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @Author MercerJR
- * @Data 2020/6/9 13:17
+ * @Data 2020/6/9 22:47
  */
 @Data
 @AllArgsConstructor
@@ -25,7 +25,7 @@ public class AComment implements Serializable {
 
     private String content;
 
-    private Long gmtCreate;
+    private String gmtCreate;
 
     private static final long serialVersionUID = 1L;
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @Author MercerJR
- * @Data 2020/6/9 13:15
+ * @Data 2020/6/9 22:44
  */
 @Data
 @AllArgsConstructor
@@ -27,9 +27,7 @@ public class Wall implements Serializable {
 
     private String label;
 
-    private Long gmtCreat;
-
-    private Long gmtModified;
+    private String gmtCreate;
 
     private Integer replyNum;
 

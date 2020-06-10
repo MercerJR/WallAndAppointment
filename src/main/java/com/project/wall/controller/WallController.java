@@ -61,8 +61,7 @@ public class WallController {
         wall.setWallId("W" + idUtils.getPrimaryKey());
         wall.setAccountId(accountId);
         wall.setUsername(userService.selectUsernameById(accountId));
-        wall.setGmtCreat(System.currentTimeMillis());
-        wall.setGmtModified(System.currentTimeMillis());
+        wall.setGmtCreate(dateFormatUtil.getDateByMiles(System.currentTimeMillis()));
         service.publishWall(wall);
         return new Response().success();
     }
@@ -81,7 +80,6 @@ public class WallController {
             throw new CustomException(CustomExceptionType.VALIDATE_ERROR,Message.TITLE_OR_CONTENT_EMPTY);
         }
         wall.setUsername(userService.selectUsernameById(accountId));
-        wall.setGmtModified(System.currentTimeMillis());
         service.updateWall(wall);
         return new Response().success();
     }
@@ -155,7 +153,8 @@ public class WallController {
         }
         ObjectMapper mapper = new ObjectMapper();
         Wall wall = mapper.readValue(jsonData,Wall.class);
-        return new Response().success(redisService.likeWall(wall.getWallId(), wall.getGmtCreat(), accountId));
+        return new Response().success(redisService.likeWall(wall.getWallId(),
+                dateFormatUtil.getMilesByDate(wall.getGmtCreate()), accountId));
     }
 
     @PostMapping(value = "/commentPublish",produces = "application/json")
@@ -169,7 +168,7 @@ public class WallController {
         comment.setAccountId(accountId);
         comment.setUsername(userService.selectUsernameById(accountId));
         comment.setIcon(userService.selectIconById(accountId));
-        comment.setGmtCreate(System.currentTimeMillis());
+        comment.setGmtCreate(dateFormatUtil.getDateByMiles(System.currentTimeMillis()));
         service.publishComment(comment);
         redisService.increaseReplyNum(comment.getWallId());
         return new Response().success();
@@ -200,7 +199,7 @@ public class WallController {
         reply.setAccountId(accountId);
         reply.setUsername(userService.selectUsernameById(accountId));
         reply.setReplyUsername(userService.selectUsernameById(reply.getReplyUserId()));
-        reply.setGmtCreate(System.currentTimeMillis());
+        reply.setGmtCreate(dateFormatUtil.getDateByMiles(System.currentTimeMillis()));
         service.publishReply(reply);
         redisService.increaseReplyNum(service.getWallIdByComment(reply.getCommentId()));
         return new Response().success();

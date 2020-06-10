@@ -1,13 +1,10 @@
 package com.project.wall.dao;
 
-import com.project.wall.po.AComment;
-import com.project.wall.po.Appointment;
-import org.apache.ibatis.annotations.Param;
-import java.util.List;
+import com.project.wall.po.AComment;import com.project.wall.po.Appointment;import org.apache.ibatis.annotations.Param;import java.util.List;
 
 /**
  * @Author MercerJR
- * @Data 2020/6/9 13:17
+ * @Data 2020/6/9 22:47
  */
 public interface ACommentMapper {
     boolean deleteByPrimaryKey(String commentId);

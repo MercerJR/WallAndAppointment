@@ -4,7 +4,7 @@ import com.project.wall.po.Appointment;import org.apache.ibatis.annotations.Para
 
 /**
  * @Author MercerJR
- * @Data 2020/6/9 13:16
+ * @Data 2020/6/9 22:46
  */
 public interface AppointmentMapper {
     boolean deleteByPrimaryKey(String appointmentId);

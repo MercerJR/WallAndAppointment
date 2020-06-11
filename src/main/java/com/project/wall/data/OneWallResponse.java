@@ -22,8 +22,6 @@ public class OneWallResponse {
 
     private List<CommentResponse<WComment, WCommentReply>> commentResponseList;
 
-    private Integer likeCount;
-
     private boolean like;
 
 }

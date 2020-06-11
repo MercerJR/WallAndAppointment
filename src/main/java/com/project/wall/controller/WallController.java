@@ -51,7 +51,7 @@ public class WallController {
     public Response publish(HttpServletRequest request,
                             @RequestBody Wall wall) {
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
-        if (accountId == null || "".equals(accountId)) {
+        if (accountId == null) {
             throw new CustomException(CustomExceptionType.NOT_AUTHENTICATION, Message.NOT_LOGIN);
         }
         if (wall.getTitle() == null || "".equals(wall.getTitle()) ||
@@ -140,7 +140,9 @@ public class WallController {
                 service.getCommentListInWall(wallId);
         Integer likeCount = redisService.getWallLikeCount(wallId);
         boolean like = redisService.isUserLike(wallId,accountId);
-        OneWallResponse wallResponse = new OneWallResponse(wall,commentResponseList,likeCount,like);
+        wall.setLikeNum(likeCount);
+        service.insertLikeNum(likeCount,wallId);
+        OneWallResponse wallResponse = new OneWallResponse(wall,commentResponseList,like);
         return new Response().success(wallResponse);
     }
 
@@ -148,7 +150,7 @@ public class WallController {
     public Response like(HttpServletRequest request,
                          @RequestBody String jsonData) throws JsonProcessingException {
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
-        if (accountId == null || "".equals(accountId)) {
+        if (accountId == null) {
             throw new CustomException(CustomExceptionType.NOT_AUTHENTICATION,Message.NOT_LOGIN);
         }
         ObjectMapper mapper = new ObjectMapper();
@@ -161,7 +163,7 @@ public class WallController {
     public Response commentPublish(HttpServletRequest request,
                                    @RequestBody WComment comment){
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
-        if (accountId == null || "".equals(accountId)) {
+        if (accountId == null) {
             throw new CustomException(CustomExceptionType.NOT_AUTHENTICATION,Message.NOT_LOGIN);
         }
         comment.setCommentId("WC" + idUtils.getPrimaryKey());
@@ -175,7 +177,7 @@ public class WallController {
     }
 
     @DeleteMapping(value = "/commentDelete",produces = "application/json")
-    public Response commentDelete(HttpServletRequest request, @RequestBody WComment comment) throws JsonProcessingException {
+    public Response commentDelete(HttpServletRequest request, @RequestBody WComment comment) {
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
         if (accountId == null || "".equals(accountId)) {
             throw new CustomException(CustomExceptionType.NOT_AUTHENTICATION, Message.NOT_LOGIN);
@@ -192,7 +194,7 @@ public class WallController {
     public Response commentReplyPublish(HttpServletRequest request,
                                         @RequestBody WCommentReply reply){
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
-        if (accountId == null || "".equals(accountId)) {
+        if (accountId == null) {
             throw new CustomException(CustomExceptionType.NOT_AUTHENTICATION,Message.NOT_LOGIN);
         }
         reply.setReplyId("WCR" + idUtils.getPrimaryKey());

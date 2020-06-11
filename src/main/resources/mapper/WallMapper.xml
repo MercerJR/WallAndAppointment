@@ -187,5 +187,8 @@
   <select id="selectNumByUser" resultType="java.lang.Integer">
     select count(*) from wall where account_id = #{accountId}
   </select>
+  <update id="updateLikeCount">
+    update wall set like_num = #{likeCount} where wall_id = #{wallId}
+  </update>
 
 </mapper>

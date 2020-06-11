@@ -144,4 +144,11 @@ public class WallServiceImpl implements WallService {
         return mapper.selectNumByUser(accountId);
     }
 
+    @Override
+    public void insertLikeNum(Integer likeCount, String wallId) {
+        if (!mapper.updateLikeCount(likeCount,wallId)){
+            throw new CustomException(CustomExceptionType.SYSTEM_ERROR,Message.CONTACT_ADMIN);
+        }
+    }
+
 }

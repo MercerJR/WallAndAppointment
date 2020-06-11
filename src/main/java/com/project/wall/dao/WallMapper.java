@@ -33,4 +33,6 @@ public interface WallMapper {
     void updateUsername(@Param("accountId") String accountId,@Param("username") String username);
 
     Integer selectNumByUser(String accountId);
+
+    boolean updateLikeCount(@Param("likeCount") Integer likeCount, @Param("wallId") String wallId);
 }

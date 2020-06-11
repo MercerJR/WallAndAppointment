@@ -206,6 +206,15 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
+    public Integer getAppointmentJoinCount(String appointmentId) {
+        String appointmentJoinCountKey = HttpInfo.APPOINTMENT_JOIN_COUNT + ":" + appointmentId;
+        Integer count = redisTemplate.hasKey(appointmentJoinCountKey) ?
+                (Integer) redisTemplate.opsForValue().get(appointmentJoinCountKey) : 0;
+        return count;
+//        return (Integer) redisTemplate.opsForValue().get(appointmentJoinCountKey);
+    }
+
+    @Override
     public void deleteWallLikeInfo(Wall wall, String accountId) {
         //----------------------------------这里要改-------------------------------------
         String wallLikekey = HttpInfo.WALL_LIKE + dateFormatUtil.getWallLikeKeyByMiles(Long.valueOf(wall.getGmtCreate())) + ":" + wall.getWallId();
@@ -255,11 +264,6 @@ public class RedisServiceImpl implements RedisService {
         return redisTemplate.opsForSet().isMember(userLikeWallKey, wallId);
     }
 
-    @Override
-    public Integer getAppointmentJoinCount(String appointmentId) {
-        String appointmentJoinCountKey = HttpInfo.APPOINTMENT_JOIN_COUNT + ":" + appointmentId;
-        return (Integer) redisTemplate.opsForValue().get(appointmentJoinCountKey);
-    }
 
     @Override
     public boolean isUserJoin(String appointmentId, String accountId) {

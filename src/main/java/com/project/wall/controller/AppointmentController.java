@@ -50,7 +50,7 @@ public class AppointmentController {
     @PostMapping(value = "/publish", produces = "application/json")
     public Response publish(HttpServletRequest request, @RequestBody Appointment appointment) {
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
-        if (accountId == null || "".equals(accountId)) {
+        if (accountId == null) {
             throw new CustomException(CustomExceptionType.NOT_AUTHENTICATION, Message.NOT_LOGIN);
         }
         if (appointment.getContent() == null || "".equals(appointment.getContent()) ||
@@ -104,7 +104,7 @@ public class AppointmentController {
     @PostMapping(value = "/join", produces = "application/json")
     public Response join(HttpServletRequest request, @RequestBody Appointment appointment) {
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
-        if (accountId == null || "".equals(accountId)){
+        if (accountId == null){
             throw new CustomException(CustomExceptionType.NOT_AUTHENTICATION, Message.NOT_LOGIN);
         }
         return new Response().success(redisService.joinAppointment(appointment.getAppointmentId(),
@@ -133,8 +133,10 @@ public class AppointmentController {
                 service.getCommentListInAppointment(appointmentId);
         Integer joinCount = redisService.getAppointmentJoinCount(appointmentId);
         boolean join = redisService.isUserJoin(appointmentId,accountId);
+        appointment.setJoinNum(joinCount);
+        service.insertJoinNum(joinCount,appointmentId);
         OneAppointmentResponse appointmentResponse = new OneAppointmentResponse(
-                appointment,commentResponseList,joinCount,join);
+                appointment,commentResponseList,join);
         return new Response().success(appointmentResponse);
     }
 
@@ -142,7 +144,7 @@ public class AppointmentController {
     public Response commentPublish(HttpServletRequest request,
                                    @RequestBody AComment comment) {
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
-        if (accountId == null || "".equals(accountId)) {
+        if (accountId == null) {
             throw new CustomException(CustomExceptionType.NOT_AUTHENTICATION,Message.NOT_LOGIN);
         }
         comment.setCommentId("AC" + idUtils.getPrimaryKey());
@@ -175,7 +177,7 @@ public class AppointmentController {
     public Response commentReplyPublish(HttpServletRequest request,
                                         @RequestBody ACommentReply reply) {
         String accountId = request.getHeader(HttpInfo.TOKEN_HEADER);
-        if (accountId == null || "".equals(accountId)) {
+        if (accountId == null) {
             throw new CustomException(CustomExceptionType.NOT_AUTHENTICATION, Message.NOT_LOGIN);
         }
         reply.setReplyId("ACR" + idUtils.getPrimaryKey());

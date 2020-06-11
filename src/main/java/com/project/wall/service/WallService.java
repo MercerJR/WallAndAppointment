@@ -44,4 +44,6 @@ public interface WallService {
     void updateUsername(String accountId,String username);
 
     Integer getWallNumByUser(String accountId);
+
+    void insertLikeNum(Integer likeCount, String wallId);
 }

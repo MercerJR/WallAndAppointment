@@ -137,4 +137,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Integer getAppointmentNumByUser(String accountId) {
         return mapper.selectNumByUser(accountId);
     }
+
+    @Override
+    public void insertJoinNum(Integer joinCount,String appointmentId) {
+        if (!mapper.updateJoinNum(joinCount,appointmentId)){
+            throw new CustomException(CustomExceptionType.SYSTEM_ERROR,Message.CONTACT_ADMIN);
+        }
+    }
 }

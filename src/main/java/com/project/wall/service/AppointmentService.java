@@ -42,4 +42,6 @@ public interface AppointmentService {
     void updateUsername(String accountId, String username);
 
     Integer getAppointmentNumByUser(String accountId);
+
+    void insertJoinNum(Integer joinCount,String appointmentId);
 }

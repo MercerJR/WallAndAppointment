@@ -20,8 +20,6 @@ public class OneAppointmentResponse {
 
     private List<CommentResponse<AComment, ACommentReply>> commentResponseList;
 
-    private Integer joinCount;
-
     private boolean join;
 
 }

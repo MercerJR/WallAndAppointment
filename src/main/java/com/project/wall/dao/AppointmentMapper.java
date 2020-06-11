@@ -30,4 +30,6 @@ public interface AppointmentMapper {
     void updateUsername(@Param("accountId") String accountId,@Param("username") String username);
 
     Integer selectNumByUser(String accountId);
+
+    boolean updateJoinNum(@Param("joinNum") Integer joinCount,@Param("appointmentId") String appointmentId);
 }

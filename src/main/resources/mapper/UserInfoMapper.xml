@@ -7,10 +7,10 @@
     <id column="account_id" jdbcType="VARCHAR" property="accountId" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="icon" jdbcType="LONGVARCHAR" property="icon" />
-    <result column="gender" jdbcType="SMALLINT" property="gender" />
-    <result column="age" jdbcType="SMALLINT" property="age" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="age" jdbcType="INTEGER" property="age" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="qq_number" jdbcType="INTEGER" property="qqNumber" />
+    <result column="qq_number" jdbcType="VARCHAR" property="qqNumber" />
     <result column="telephone" jdbcType="VARCHAR" property="telephone" />
     <result column="school_id" jdbcType="INTEGER" property="schoolId" />
     <result column="person_introduction" jdbcType="LONGVARCHAR" property="personIntroduction" />
@@ -44,8 +44,8 @@
       person_introduction, hobbies, hometown, 
       constellation, animal_sign)
     values (#{accountId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{icon,jdbcType=LONGVARCHAR}, 
-      #{gender,jdbcType=SMALLINT}, #{age,jdbcType=SMALLINT}, #{email,jdbcType=VARCHAR}, 
-      #{qqNumber,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR}, #{schoolId,jdbcType=INTEGER}, 
+      #{gender,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, 
+      #{qqNumber,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{schoolId,jdbcType=INTEGER}, 
       #{personIntroduction,jdbcType=LONGVARCHAR}, #{hobbies,jdbcType=LONGVARCHAR}, #{hometown,jdbcType=VARCHAR}, 
       #{constellation,jdbcType=VARCHAR}, #{animalSign,jdbcType=VARCHAR})
   </insert>
@@ -107,16 +107,16 @@
         #{icon,jdbcType=LONGVARCHAR},
       </if>
       <if test="gender != null">
-        #{gender,jdbcType=SMALLINT},
+        #{gender,jdbcType=INTEGER},
       </if>
       <if test="age != null">
-        #{age,jdbcType=SMALLINT},
+        #{age,jdbcType=INTEGER},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
       <if test="qqNumber != null">
-        #{qqNumber,jdbcType=INTEGER},
+        #{qqNumber,jdbcType=VARCHAR},
       </if>
       <if test="telephone != null">
         #{telephone,jdbcType=VARCHAR},
@@ -152,16 +152,16 @@
         icon = #{icon,jdbcType=LONGVARCHAR},
       </if>
       <if test="gender != null">
-        gender = #{gender,jdbcType=SMALLINT},
+        gender = #{gender,jdbcType=INTEGER},
       </if>
       <if test="age != null">
-        age = #{age,jdbcType=SMALLINT},
+        age = #{age,jdbcType=INTEGER},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="qqNumber != null">
-        qq_number = #{qqNumber,jdbcType=INTEGER},
+        qq_number = #{qqNumber,jdbcType=VARCHAR},
       </if>
       <if test="telephone != null">
         telephone = #{telephone,jdbcType=VARCHAR},
@@ -192,10 +192,10 @@
     update user_info
     set username = #{username,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=LONGVARCHAR},
-      gender = #{gender,jdbcType=SMALLINT},
-      age = #{age,jdbcType=SMALLINT},
+      gender = #{gender,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
       email = #{email,jdbcType=VARCHAR},
-      qq_number = #{qqNumber,jdbcType=INTEGER},
+      qq_number = #{qqNumber,jdbcType=VARCHAR},
       telephone = #{telephone,jdbcType=VARCHAR},
       school_id = #{schoolId,jdbcType=INTEGER},
       person_introduction = #{personIntroduction,jdbcType=LONGVARCHAR},

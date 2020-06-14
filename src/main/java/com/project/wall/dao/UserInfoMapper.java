@@ -4,7 +4,7 @@ import com.project.wall.po.UserInfo;import org.apache.ibatis.annotations.Param;
 
 /**
  * @Author MercerJR
- * @Data 2020/6/9 13:13
+ * @Data 2020/6/14 16:02
  */
 public interface UserInfoMapper {
     boolean deleteByPrimaryKey(String accountId);

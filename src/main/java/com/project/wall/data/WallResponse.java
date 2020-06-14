@@ -1,6 +1,7 @@
 package com.project.wall.data;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.project.wall.po.UserInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,10 +21,6 @@ import java.util.Set;
 public class WallResponse {
 
     private List wallList;
-
-//    private Map replyCountMap;
-
-//    private Map likeCountMap;
 
     private Set likeSet;
 

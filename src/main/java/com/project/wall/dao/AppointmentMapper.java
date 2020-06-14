@@ -31,5 +31,6 @@ public interface AppointmentMapper {
 
     Integer selectNumByUser(String accountId);
 
-    boolean updateJoinNum(@Param("joinNum") Integer joinCount,@Param("appointmentId") String appointmentId);
+    boolean updateJoinNum(@Param("joinNum") Integer joinCount, @Param("replyCount") Integer replyCount
+            ,@Param("appointmentId") String appointmentId);
 }

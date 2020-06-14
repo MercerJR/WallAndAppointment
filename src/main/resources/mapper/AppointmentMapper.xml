@@ -207,8 +207,9 @@
   <select id="selectNumByUser" resultType="java.lang.Integer">
     select count(*) from appointment where account_id = #{accountId};
   </select>
+
     <insert id="updateJoinNum">
-      update appointment set join_num = #{joinNum} where appointment_id = #{appointmentId};
+      update appointment set join_num = #{joinNum} ,reply_num = #{replyCount} where appointment_id = #{appointmentId};
     </insert>
 
 </mapper>

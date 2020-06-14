@@ -26,4 +26,7 @@ public interface HttpInfo {
     Integer APPOINTMENT_SHOW_NUM = 10;
     String TOKEN_HEADER = "Authorization";
     String REPLY_NUM = "ReplyNum";
+    String[] HOT_IMG = {"https://uploadfile.bizhizu.cn/2014/0110/20140110035445746.jpg",
+            "https://uploadfile.bizhizu.cn/2014/0110/20140110035445746.jpg",
+            "https://uploadfile.bizhizu.cn/2014/0110/20140110035445746.jpg"};
 }

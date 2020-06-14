@@ -44,7 +44,6 @@ public class WxLoginController {
         if (wxUserToken.getErrcode() != 0) {
             throw new CustomException(CustomExceptionType.WX_CODE_ERROR, wxUserToken.getErrmsg());
         }
-        //查MySQL，没有就生成新的第三方key
         String accountId = userService.existUserToken(wxUserToken.getOpenid());
         if (accountId != null){
             String username = userService.selectUsernameById(accountId);

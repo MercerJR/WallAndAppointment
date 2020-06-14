@@ -165,7 +165,8 @@ public class RedisServiceImpl implements RedisService {
             String redisKey = HttpInfo.WALL_LIKE_COUNT + ":" + key;
             Integer count = redisTemplate.hasKey(redisKey) ?
                     (Integer) redisTemplate.opsForValue().get(redisKey) : 0;
-            wall.setLikeNum(count);
+            wall.setLikeNum(count + wall.getLikeNum());
+            redisTemplate.opsForValue().set(redisKey,0);
         }
     }
 
@@ -177,7 +178,8 @@ public class RedisServiceImpl implements RedisService {
             String redisKey = HttpInfo.REPLY_NUM + ":" + key;
             Integer count = redisTemplate.hasKey(redisKey) ?
                     (Integer) redisTemplate.opsForValue().get(redisKey) : 0;
-            wall.setReplyNum(count);
+            wall.setReplyNum(count + wall.getReplyNum());
+            redisTemplate.opsForValue().set(redisKey,0);
         }
     }
 
@@ -189,8 +191,18 @@ public class RedisServiceImpl implements RedisService {
             String redisKey = HttpInfo.REPLY_NUM + ":" + key;
             Integer count = redisTemplate.hasKey(redisKey) ?
                     (Integer) redisTemplate.opsForValue().get(redisKey) : 0;
-            appointment.setReplyNum(count);
+            appointment.setReplyNum(count + appointment.getReplyNum());
+            redisTemplate.opsForValue().set(redisKey,0);
         }
+    }
+
+    @Override
+    public void getAppointmentReplyCount(Appointment appointment) {
+        String replyKey = HttpInfo.REPLY_NUM + ":" + appointment.getAppointmentId();
+        Integer count = (Integer) redisTemplate.opsForValue().get(replyKey);
+        count =  count != null ? count : 0;
+        appointment.setReplyNum(appointment.getReplyNum() + count);
+        redisTemplate.opsForValue().set(replyKey,0);
     }
 
     @Override
@@ -201,17 +213,18 @@ public class RedisServiceImpl implements RedisService {
             String redisKey = HttpInfo.APPOINTMENT_JOIN_COUNT + ":" + key;
             Integer count = redisTemplate.hasKey(redisKey) ?
                     (Integer) redisTemplate.opsForValue().get(redisKey) : 0;
-            appointment.setJoinNum(count);
+            appointment.setJoinNum(count + appointment.getJoinNum());
+            redisTemplate.opsForValue().set(redisKey,0);
         }
     }
 
     @Override
-    public Integer getAppointmentJoinCount(String appointmentId) {
-        String appointmentJoinCountKey = HttpInfo.APPOINTMENT_JOIN_COUNT + ":" + appointmentId;
-        Integer count = redisTemplate.hasKey(appointmentJoinCountKey) ?
-                (Integer) redisTemplate.opsForValue().get(appointmentJoinCountKey) : 0;
-        return count;
-//        return (Integer) redisTemplate.opsForValue().get(appointmentJoinCountKey);
+    public void getAppointmentJoinCount(Appointment appointment) {
+        String appointmentJoinCountKey = HttpInfo.APPOINTMENT_JOIN_COUNT + ":" + appointment.getAppointmentId();
+        Integer count = (Integer) redisTemplate.opsForValue().get(appointmentJoinCountKey);
+        count = count != null ? count : 0;
+        appointment.setJoinNum(count + appointment.getJoinNum());
+        redisTemplate.opsForValue().set(appointmentJoinCountKey,0);
     }
 
     @Override
@@ -253,9 +266,21 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public Integer getWallLikeCount(String wallId) {
-        String wallLikeCountKey = HttpInfo.WALL_LIKE_COUNT + ":" + wallId;
-        return (Integer) redisTemplate.opsForValue().get(wallLikeCountKey);
+    public void getWallLikeCount(Wall wall) {
+        String wallLikeCountKey = HttpInfo.WALL_LIKE_COUNT + ":" + wall.getWallId();
+        Integer count = (Integer) redisTemplate.opsForValue().get(wallLikeCountKey);
+        count =  count != null ? count : 0;
+        wall.setLikeNum(wall.getLikeNum() + count);
+        redisTemplate.opsForValue().set(wallLikeCountKey,0);
+    }
+
+    @Override
+    public void getWallReplyCount(Wall wall) {
+        String replyNum = HttpInfo.REPLY_NUM + ":" + wall.getWallId();
+        Integer count = (Integer) redisTemplate.opsForValue().get(replyNum);
+        count =  count != null ? count : 0;
+        wall.setReplyNum(wall.getReplyNum() + count);
+        redisTemplate.opsForValue().set(replyNum,0);
     }
 
     @Override

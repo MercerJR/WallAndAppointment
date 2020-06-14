@@ -14,11 +14,12 @@
     <result column="gmt_create" jdbcType="VARCHAR" property="gmtCreate" />
     <result column="reply_num" jdbcType="INTEGER" property="replyNum" />
     <result column="like_num" jdbcType="INTEGER" property="likeNum" />
+    <result column="show" jdbcType="INTEGER" property="show" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     wall_id, account_id, username, title, content, img, `label`, gmt_create, reply_num, 
-    like_num
+    like_num, `show`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -37,11 +38,11 @@
     insert into wall (wall_id, account_id, username, 
       title, content, img, 
       `label`, gmt_create, reply_num, 
-      like_num)
+      like_num, `show`)
     values (#{wallId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{img,jdbcType=LONGVARCHAR}, 
       #{label,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=VARCHAR}, #{replyNum,jdbcType=INTEGER}, 
-      #{likeNum,jdbcType=INTEGER})
+      #{likeNum,jdbcType=INTEGER}, #{show,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.project.wall.po.Wall">
     <!--@mbg.generated-->
@@ -77,6 +78,9 @@
       <if test="likeNum != null">
         like_num,
       </if>
+      <if test="show != null">
+        `show`,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="wallId != null">
@@ -108,6 +112,9 @@
       </if>
       <if test="likeNum != null">
         #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="show != null">
+        #{show,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -142,6 +149,9 @@
       <if test="likeNum != null">
         like_num = #{likeNum,jdbcType=INTEGER},
       </if>
+      <if test="show != null">
+        `show` = #{show,jdbcType=INTEGER},
+      </if>
     </set>
     where wall_id = #{wallId,jdbcType=VARCHAR}
   </update>
@@ -156,7 +166,8 @@
       `label` = #{label,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=VARCHAR},
       reply_num = #{replyNum,jdbcType=INTEGER},
-      like_num = #{likeNum,jdbcType=INTEGER}
+      like_num = #{likeNum,jdbcType=INTEGER},
+      `show` = #{show,jdbcType=INTEGER}
     where wall_id = #{wallId,jdbcType=VARCHAR}
   </update>
 
@@ -188,7 +199,7 @@
     select count(*) from wall where account_id = #{accountId}
   </select>
   <update id="updateLikeCount">
-    update wall set like_num = #{likeCount} where wall_id = #{wallId}
+    update wall set like_num = #{likeCount},reply_num = #{replyCount} where wall_id = #{wallId}
   </update>
 
 </mapper>

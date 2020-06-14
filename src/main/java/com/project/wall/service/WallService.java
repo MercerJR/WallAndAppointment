@@ -45,5 +45,5 @@ public interface WallService {
 
     Integer getWallNumByUser(String accountId);
 
-    void insertLikeNum(Integer likeCount, String wallId);
+    void insertNum(Integer likeCount, Integer replyCount ,String wallId);
 }

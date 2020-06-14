@@ -139,8 +139,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void insertJoinNum(Integer joinCount,String appointmentId) {
-        if (!mapper.updateJoinNum(joinCount,appointmentId)){
+    public void insertNum(Integer joinCount,Integer replyCount,String appointmentId) {
+        if (!mapper.updateJoinNum(joinCount,replyCount,appointmentId)){
             throw new CustomException(CustomExceptionType.SYSTEM_ERROR,Message.CONTACT_ADMIN);
         }
     }

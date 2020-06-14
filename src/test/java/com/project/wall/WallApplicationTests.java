@@ -32,8 +32,8 @@ class WallApplicationTests {
 //    @Autowired
 //    RedisServiceImpl redisService;
 //
-//    @Autowired
-//    private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 //
 //    @Test
 //    void contextLoads() {
@@ -180,5 +180,12 @@ class WallApplicationTests {
 //        }
 //        System.out.println(time);
 //    }
+    @Test
+    void test(){
+        for (int i = 0;i<6;i++){
+            redisTemplate.opsForList().rightPopAndLeftPush("wallHot:202006:14","newKey");
+        }
+
+    }
 
 }

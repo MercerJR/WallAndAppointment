@@ -1,5 +1,6 @@
 package com.project.wall.data;
 
+import com.project.wall.po.UserInfo;
 import com.project.wall.po.WComment;
 import com.project.wall.po.WCommentReply;
 import com.project.wall.po.Wall;

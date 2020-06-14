@@ -49,6 +49,8 @@ public interface RedisService {
 
     void getAppointmentReplyCount(List wallList);
 
+    void getAppointmentReplyCount(Appointment appointment);
+
     void getAppointmentJoinCount(List appointmentList);
 
     void deleteWallLikeInfo(Wall wall,String accountId);
@@ -61,11 +63,13 @@ public interface RedisService {
 
     void deleteReplyNum(String postId);
 
-    Integer getWallLikeCount(String wallId);
+    void getWallLikeCount(Wall wall);
+
+    void getWallReplyCount(Wall wall);
 
     boolean isUserLike(String wallId, String accountId);
 
-    Integer getAppointmentJoinCount(String appointmentId);
+    void getAppointmentJoinCount(Appointment appointment);
 
     boolean isUserJoin(String appointmentId, String accountId);
     

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.wall.data.*;
 import com.project.wall.exception.CustomException;
 import com.project.wall.exception.CustomExceptionType;
+import com.project.wall.po.HotWall;
 import com.project.wall.po.WComment;
 import com.project.wall.po.WCommentReply;
 import com.project.wall.po.Wall;
@@ -138,12 +139,17 @@ public class WallController {
         Wall wall = service.getWallById(wallId);
         List<CommentResponse<WComment,WCommentReply>> commentResponseList =
                 service.getCommentListInWall(wallId);
-        Integer likeCount = redisService.getWallLikeCount(wallId);
+        redisService.getWallLikeCount(wall);
+        redisService.getWallReplyCount(wall);
         boolean like = redisService.isUserLike(wallId,accountId);
-        wall.setLikeNum(likeCount);
-        service.insertLikeNum(likeCount,wallId);
+        service.insertNum(wall.getLikeNum(),wall.getReplyNum(),wallId);
         OneWallResponse wallResponse = new OneWallResponse(wall,commentResponseList,like);
         return new Response().success(wallResponse);
+    }
+
+    @GetMapping(value = "/showUserInfo",produces = "application/json")
+    public Response showUserInfo(@RequestParam("userId")String userId){
+        return new Response().success(userService.getUserInfoById(userId));
     }
 
     @PostMapping(value = "/like", produces = "application/json")
@@ -232,7 +238,12 @@ public class WallController {
         String hotKey = HttpInfo.WALL_HOT + ":" +
                 dateFormatUtil.getWallLikeKeyByDate(year, month, day + 1);
         if (redisService.existKey(hotKey)) {
-            return redisService.getList(hotKey);
+            List hotList = redisService.getList(hotKey);
+            List<HotWall> hotWallList = new ArrayList<>();
+            for (int i = 0;i < hotList.size();i++){
+                hotWallList.add(new HotWall((String) hotList.get(i),HttpInfo.HOT_IMG[i]));
+            }
+            return hotWallList;
         }
 
         String yesterdayKey = HttpInfo.WALL_HOT + ":" +
@@ -247,12 +258,14 @@ public class WallController {
         }
 
         List hotList = new ArrayList<>();
+        List<HotWall> hotWallList = new ArrayList<>();
         if (arr.length < HttpInfo.HOT_STANDARD) {
             if (!redisService.existKey(yesterdayKey)){
                 for (int i = 0; i < arr.length; i++) {
                     String key = (String) arr[i];
                     String wallId = key.split(keyPrefix + ":")[1];
-                    hotList.add(wallId);
+                    hotWallList.add(new HotWall(wallId,HttpInfo.HOT_IMG[i]));
+//                    hotList.add(wallId);
                     redisService.leftInsertList(hotKey,wallId);
                 }
             }else {
@@ -267,19 +280,26 @@ public class WallController {
                     redisService.leftInsertList(yesterdayKey,wallId);
                 }
                 redisService.moveListToAnother(yesterdayKey,hotKey);
-                redisService.removeKey(yesterdayKey);
                 hotList = redisService.getList(hotKey);
+                for (int i = 0;i < hotList.size();i++){
+                    hotWallList.add(new HotWall((String) hotList.get(i),HttpInfo.HOT_IMG[i]));
+                }
             }
         } else {
+            int imgIndex = 0;
+            System.out.println(arr.length - 1);
+            System.out.println(arr.length - HttpInfo.HOT_STANDARD);
             for (int i = arr.length - 1; i >= arr.length - HttpInfo.HOT_STANDARD; i--) {
                 String key = (String) arr[i];
                 String wallId = key.split(keyPrefix + ":")[1];
-                hotList.add(wallId);
+                HotWall hotWall = new HotWall(wallId,HttpInfo.HOT_IMG[imgIndex++]);
+//                hotList.add(wallId);
                 redisService.leftInsertList(hotKey,wallId);
+                hotWallList.add(hotWall);
             }
             redisService.removeKey(yesterdayKey);
         }
-        return hotList;
+        return hotWallList;
     }
 
     private  <K, V extends Comparable<? super V>> Map<K, V> sortDescend(Map<K, V> map) {

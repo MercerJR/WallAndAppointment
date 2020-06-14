@@ -131,10 +131,10 @@ public class AppointmentController {
         Appointment appointment = service.getAppointmentById(appointmentId);
         List<CommentResponse<AComment,ACommentReply>> commentResponseList =
                 service.getCommentListInAppointment(appointmentId);
-        Integer joinCount = redisService.getAppointmentJoinCount(appointmentId);
+        redisService.getAppointmentJoinCount(appointment);
+        redisService.getAppointmentReplyCount(appointment);
         boolean join = redisService.isUserJoin(appointmentId,accountId);
-        appointment.setJoinNum(joinCount);
-        service.insertJoinNum(joinCount,appointmentId);
+        service.insertNum(appointment.getJoinNum(),appointment.getReplyNum(),appointmentId);
         OneAppointmentResponse appointmentResponse = new OneAppointmentResponse(
                 appointment,commentResponseList,join);
         return new Response().success(appointmentResponse);

@@ -43,5 +43,5 @@ public interface AppointmentService {
 
     Integer getAppointmentNumByUser(String accountId);
 
-    void insertJoinNum(Integer joinCount,String appointmentId);
+    void insertNum(Integer joinCount,Integer replyCount,String appointmentId);
 }

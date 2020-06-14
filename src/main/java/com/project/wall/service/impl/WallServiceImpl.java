@@ -145,8 +145,8 @@ public class WallServiceImpl implements WallService {
     }
 
     @Override
-    public void insertLikeNum(Integer likeCount, String wallId) {
-        if (!mapper.updateLikeCount(likeCount,wallId)){
+    public void insertNum(Integer likeCount,Integer replyCount, String wallId) {
+        if (!mapper.updateLikeCount(likeCount,replyCount,wallId)){
             throw new CustomException(CustomExceptionType.SYSTEM_ERROR,Message.CONTACT_ADMIN);
         }
     }

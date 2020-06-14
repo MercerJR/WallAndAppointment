@@ -23,4 +23,6 @@ public class WxParams {
     String username;
 
     String icon;
+
+    String accountId;
 }

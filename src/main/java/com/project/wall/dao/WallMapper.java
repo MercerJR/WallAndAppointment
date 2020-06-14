@@ -4,7 +4,7 @@ import com.project.wall.po.Wall;import org.apache.ibatis.annotations.Param;impor
 
 /**
  * @Author MercerJR
- * @Data 2020/6/9 22:44
+ * @Data 2020/6/13 22:32
  */
 public interface WallMapper {
     boolean deleteByPrimaryKey(String wallId);
@@ -34,5 +34,6 @@ public interface WallMapper {
 
     Integer selectNumByUser(String accountId);
 
-    boolean updateLikeCount(@Param("likeCount") Integer likeCount, @Param("wallId") String wallId);
+    boolean updateLikeCount(@Param("likeCount") Integer likeCount,
+                            @Param("replyCount") Integer replyCount, @Param("wallId") String wallId);
 }
